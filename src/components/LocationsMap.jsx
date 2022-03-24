@@ -28,7 +28,7 @@ export default function LocationsMap({ themes, themeIndex }) {
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: "AIzaSyDGJNLUwgbM7xtNwlJn1-oQujhcRoU1qUk",
+    googleMapsApiKey: process.env.REACT_APP_MAP_API,
   });
 
   // set map
