@@ -3,7 +3,12 @@ import { Link } from "react-router-dom";
 import LocationsMap from "../components/LocationsMap";
 import FindList from "../components/lists/FindList";
 
-export default function ManageGame({themes, themeIndex, setFindSelected, findSelected}) {
+export default function ManageGame({
+  themes,
+  themeIndex,
+  setFindSelected,
+  findSelected,
+}) {
   return (
     <div className="page_container">
       <main>
@@ -21,7 +26,7 @@ export default function ManageGame({themes, themeIndex, setFindSelected, findSel
         </header>
         <LocationsMap themes={themes} themeIndex={themeIndex} />
         <section>
-        <FindList
+          <FindList
             themes={themes}
             themeIndex={themeIndex}
             setFindSelected={setFindSelected}
@@ -29,16 +34,12 @@ export default function ManageGame({themes, themeIndex, setFindSelected, findSel
           />
         </section>
         <section>
-        <div className="theme_selector_container">
-            <button className="button_arrow">
-              <i className="arrow left"></i>
-            </button>
+          <div className="theme_selector_container">
+            <button className="button_arrow left" name="left"></button>
             <div className="theme_container">
               <p>Countdown and (optional) leaderboard visualisations go here</p>
             </div>
-            <button className="button_arrow">
-              <i className="arrow right"></i>
-            </button>
+            <button className="button_arrow right" name="left"></button>
           </div>
         </section>
         <section className="row_flex">

@@ -1,10 +1,10 @@
 import { React, useState } from "react";
 import { Link } from "react-router-dom";
-import FindList from "../components/lists/FindList";
 import LocationsMap from "../components/LocationsMap";
+import FindCheckBoxList from "../components/lists/FindCheckBoxList";
 
 export default function SelectLocations({ themes, themeIndex }) {
-  const [findSelected, setFindSelected] = useState(-1);
+  const [findsPlaced, setFindsPlaced] = useState({});
 
   return (
     <div className="page_container">
@@ -23,11 +23,11 @@ export default function SelectLocations({ themes, themeIndex }) {
       <main>
         <section>
           <p>Select locations for each of your finds:</p>
-          <FindList
+          <FindCheckBoxList
             themes={themes}
             themeIndex={themeIndex}
-            setFindSelected={setFindSelected}
-            findSelected={findSelected}
+            setFindsPlaced={setFindsPlaced}
+            findsPlaced={findsPlaced}
           />
         </section>
         <LocationsMap themes={themes} themeIndex={themeIndex} />

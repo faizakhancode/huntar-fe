@@ -2,9 +2,14 @@ import { React, useState } from "react";
 import { Link } from "react-router-dom";
 import Theme from "../components/Theme";
 
-export default function SetUpGame({ themes, setNewGame, gameInputs, setGameInputs, themeIndex, setThemeIndex }) {
-
-
+export default function SetUpGame({
+  themes,
+  setNewGame,
+  gameInputs,
+  setGameInputs,
+  themeIndex,
+  setThemeIndex,
+}) {
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -63,16 +68,15 @@ export default function SetUpGame({ themes, setNewGame, gameInputs, setGameInput
           <label htmlFor="theme">Choose a theme:</label>
           <div className="theme_selector_container">
             <button
-              className="arrow left"
+              className="button_arrow left"
               name="left"
               onClick={handleArrowClick}
-            >
-            </button>
+            ></button>
             <div className="theme_container">
               <Theme theme={themeList[themeIndex]} />
             </div>
             <button
-              className="arrow right"
+              className="button_arrow right"
               name="right"
               onClick={handleArrowClick}
             ></button>

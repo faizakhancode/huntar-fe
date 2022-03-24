@@ -1,8 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default function PlayerView({displaySafetyPopUp, setDisplaySafetyPopUp}) {
-
+export default function PlayerView({
+  displaySafetyPopUp,
+  setDisplaySafetyPopUp,
+}) {
   function handleClick() {
     if (!displaySafetyPopUp) {
       setDisplaySafetyPopUp(true);
@@ -16,11 +18,10 @@ export default function PlayerView({displaySafetyPopUp, setDisplaySafetyPopUp}) 
       <div className="pop_up_overlay">
         <article className="pop_up">
           <h2>You're almost ready to begin...</h2>
+          <p>But please take a moment to learn how to play HuntAR safely!</p>
           <p>
-            But please take a moment to learn how to play HuntAR safely!
-          </p>
-          <p>
-            Be aware of your surroundings and only look at the screen when standing still.
+            Be aware of your surroundings and only look at the screen when
+            standing still.
           </p>
           <p>Happy Scavenging!</p>
           <button onClick={handleClick}>Close</button>
@@ -32,7 +33,7 @@ export default function PlayerView({displaySafetyPopUp, setDisplaySafetyPopUp}) 
   return (
     <div className="page_container">
       <main>
-          <Popup displayPopUp={displaySafetyPopUp} />
+        <Popup displayPopUp={displaySafetyPopUp} />
         <div className="camera_overlay">
           <nav>
             <div className="button_display">Score: 1350</div>
