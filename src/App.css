@@ -173,6 +173,12 @@ span {
   position: relative;
   z-index: 0;
 }
+.ul_list_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  list-style-type: none;
+}
 .theme_selector_container {
   display: flex;
   align-items: center;
@@ -245,6 +251,11 @@ li {
   padding: 20px;
   text-align: center;
 }
+.li_checkbox {
+  display: inline-block;
+  margin: 5px;
+  padding: 0px;
+}
 
 /* * * Inline text semantics * * */
 
@@ -316,6 +327,59 @@ label {
 :focus::placeholder {
 }
 
+.find_checkbox_label {
+  /* border: 1px solid #fff;
+  padding: 10px; */
+  display: block;
+  position: relative;
+  margin: 0px;
+  cursor: pointer;
+}
+
+.find_checkbox_label:before {
+  background-color: white;
+  color: white;
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  border: 1px solid var(--tertiary);
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  line-height: 28px;
+  transition-duration: 0.4s;
+  transform: scale(0);
+  z-index: 1;
+}
+
+.find_checkbox_label img {
+  height: 60px;
+  width: 60px;
+  transition-duration: 0.2s;
+  transform-origin: 50% 50%;
+  box-shadow: var(--default-box-shadow);
+}
+
+:checked + .find_checkbox_label {
+  border-color: #ddd;
+
+}
+
+:checked + .find_checkbox_label:before {
+  content: "✓";
+  background-color: var(--tertiary);
+  transform: scale(1);
+}
+
+:checked + .find_checkbox_label .asset_img {
+  transform: scale(0.9);
+  box-shadow: 0 0 5px #333;
+  z-index: -1;
+}
+
 /* Overall styling, e.g. vertical spacing */
 input {
   padding: 10px;
@@ -329,6 +393,10 @@ input {
   color: var(--primary-text);
   box-shadow: var(--default-box-shadow);
 }
+input[type="checkbox"] {
+  display: none;
+}
+
 button {
   width: 250px;
   padding: 10px;
@@ -380,40 +448,29 @@ button.secondary:disabled {
   background-color: var(--mid-blue);
   width: 60px;
   height: 60px;
-  margin-left: 10px;
-  margin-right: 10px;
-  border-radius: 20px;
+  margin: 5px;
+  border-radius: 10px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-.button_find:hover {
-  /* border: solid;
-  border-width: 10px;
-  border-color: var(--tertiary); */
-  box-shadow: 0 0px 30px 0 var(--tertiary), 0 0px 30px 0 var(--tertiary);
-}
 
+/* Arrow buttons */
 .button_arrow {
-width: 50px;
-height: 45px;
+width: 25px;
+height: 25px;
 margin: 10px;
 padding: 0px;
 background-color: transparent;
-box-shadow: none;
 z-index: 2;
+border: solid var(--white);
+box-shadow: none;
+border-width: 0 10px 10px 0;
+display: inline-block;
+border-radius: 0px;
 }
-
-/* arrows */
-.arrow {
-  padding: 3px;
-  margin: 0px;
-  border: solid var(--white);
+.button_arrow:hover{
   background-color: transparent;
-  box-shadow: none;
-  width: 40px;
-  height: 40px;
+  border: solid var(--tertiary);
   border-width: 0 10px 10px 0;
-  display: inline-block;
-  border-radius: 0px;
 }
 .right {
   transform: rotate(-45deg);
@@ -422,18 +479,6 @@ z-index: 2;
 .left {
   transform: rotate(135deg);
   -webkit-transform: rotate(135deg);
-}
-.arrow:hover {
-  padding: 3px;
-  margin: 0px;
-  border: solid var(--tertiary);
-  background-color: transparent;
-  box-shadow: none;
-  width: 40px;
-  height: 40px;
-  border-width: 0 10px 10px 0;
-  display: inline-block;
-  border-radius: 0px;
 }
 
 .button_menu {

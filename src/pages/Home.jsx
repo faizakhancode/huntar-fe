@@ -4,9 +4,8 @@ import { Link } from "react-router-dom";
 export default function Home() {
   const [displayPopUp, setDisplayPopUp] = useState(false);
 
-
   function handleSubmit() {
-    console.log("handle submit: ", "game joined")
+    console.log("handle submit: ", "game joined");
   }
 
   function handleClick() {
@@ -42,30 +41,28 @@ export default function Home() {
       <header className="secondary_background">
         <h1 className="no_margin">ScavengAR</h1>
       </header>
-    <main>
-      <section className="home_background">
-        <form onSubmit={handleSubmit}>
-          <label htmlFor="game-id">
-            Enter your Game ID:
-          </label>
-          <input name="game-id" type="text"></input>
-          <Link to="/player-view">
-          <button>Join Game</button>
-        </Link>
-        </form>
-      </section>
-      <section>
-        <Link to="/set-up-game">
-          <button>Create New Game</button>
-        </Link>
-        <br/>
-        <p>New to ScavengAR?</p>
-        <button className="secondary" onClick={handleClick}>
-          More info
-        </button>
-      </section>
-      <Popup displayPopUp={displayPopUp} />
-    </main>
+      <main>
+        <section className="home_background">
+          <form onSubmit={handleSubmit}>
+            <label htmlFor="game-id">Enter your Game ID:</label>
+            <input name="game-id" type="text"></input>
+            <Link to="/player-view">
+              <button>Join Game</button>
+            </Link>
+          </form>
+        </section>
+        <section>
+          <Link to="/set-up-game">
+            <button>Create New Game</button>
+          </Link>
+          <br />
+          <p>New to ScavengAR?</p>
+          <button className="secondary" onClick={handleClick}>
+            More info
+          </button>
+        </section>
+        <Popup displayPopUp={displayPopUp} />
+      </main>
     </div>
   );
 }
