@@ -1,306 +1,460 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-Universal
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * Universal * * */
 
 /* Apply styling to all elements (including their `::before` and `::after`
 pseudo-elements). One common use of this selector is to apply a custom
 `box-sizing`. */
-*, *::before, *::after {
-    margin: 0;
-    padding: 0;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    text-decoration: none;
-    font-weight: bold;
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  font-family: "Montserrat", sans-serif;
+  text-decoration: none;
+  font-size: 18px;
+  color: var(--secondary-text);
 }
 
+/* * * Root * * */
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-Root
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+@import url("https://fonts.googleapis.com/css2?family=Bungee&family=Montserrat&display=swap");
 
 :root {
-    --orange: #e69138ff;
-    --dark-blue: #071e34;
-    --white: #ffffffff;
-    --teal: #76a5afff;
-    font-size: 28px;
+  /* primary colours */
+  --primary: #0097a7;
+  --primary-dark: #008492;
+  --secondary: #9900ff;
+  --secondary-dark: #6a00b1;
+  --tertiary: #ffc400;
+  --grey: #f3f3f3;
+  --white: #ffffffff;
+
+  /* text colours */
+  --primary-text: #010f1d;
+  --secondary-text: #ffffffff;
+
+  /* secondary colours */
+  --mid-blue: #5b80a3;
+  --primary-text-overlay: #071e34b4;
+  --teal: #408a99;
+
+  /* shadows */
+  --default-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  --default-text-shadow: 4px 4px 10px #0000004d;
 }
-html {}
-body {}
-
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-Content sectioning
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-h1, h2, h3, h4, h5, h6 {}
-h1 {
-    color: var(--white)
+html {
 }
-h2 {}
-h3 {}
-h4 {}
-h5 {}
-h6 {}
+body {
+}
 
+.secondary_background {
+  background-color: var(--secondary-dark);
+}
+
+/* * * Content Sectioning * * */
+
+/* Header and footer */
 header {
-    display: grid;
-    background-color: var(--orange);
-    width: 100%;
-    height: 80px;
-    align-items: center;
-    justify-items: center;
+  display: flex;
+  padding: 20px;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--primary);
+}
+footer {
+  background-color: var(--mid-blue);
+  display: grid;
+  justify-items: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
-nav {}
-nav ul, nav ol {}
-nav li {}
-nav a {}
-nav a:visited {}
-nav a:hover {}
-nav a:active {}
+/* Nav */
+nav {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+}
+.nav_button_options{
+  justify-content: center;
+}
 
+nav ul,
+nav ol {
+}
+nav li {
+}
+nav a {
+}
+nav a:visited {
+}
+nav a:hover {
+}
+nav a:active {
+}
+
+/* Main and sections */
+
+.page_container {
+  height: 100vh;
+  display: flex;
+  flex-flow: column;
+}
 main {
-    display: grid;
-    width: 100vw;
-    height: 100vh;
+  background-image: linear-gradient(var(--primary), var(--primary-dark));
+  display: flex;
+  flex-flow: column;
+  flex: 1;
 }
-
-article {}
 
 section {
-    display: grid;
-    align-items: center;
-    justify-items: center;
-    width: 100%;
+  display: flex;
+  flex-flow: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+.row_flex {
+  flex-flow: row;
+}
+span {
+  width: 100%;
+  filter: drop-shadow(-1px 6px 3px rgba(0, 0, 0, 0.2));
+  /* height: 130px; */
 }
 
-aside {}
-
-footer {
-    width: 100%;
+/* Pop-ups and overlays */
+.pop_up {
+  background-color: var(--mid-blue);
+  display: grid;
+  align-content: flex-start;
+  align-self: center;
+  justify-self: center;
+  border-radius: 10px;
+  width: 70vw;
+  color: var(--secondary-text);
+  padding: 30px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: var(--default-box-shadow);
+  z-index: 2;
 }
 
-address {}
+.pop_up_overlay {
+  display: grid;
+  background-color: var(--primary-text-overlay);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+}
+.camera_overlay {
+  display: grid;
+  align-content: space-between;
+  justify-items: center;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+}
+
+.home_background {
+  background-image: linear-gradient(var(--secondary-dark),var(--secondary) );
+  clip-path: polygon(0 0, 100% 0, 100% 87%, 0 100%);
+}
+
+/* * * Custom Containers * * */
+
+.map_container {
+  position: relative;
+  z-index: 0;
+}
+.theme_selector_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.theme_container {
+  overflow: hidden;
+  display: grid;
+  align-content: center;
+  text-align: center;
+  color: var(--secondary-text);
+  background-color: var(--mid-blue);
+  width: 300px;
+  height: 150px;
+  margin: 20px;
+  margin-left: 0px;
+  margin-right: 0px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
 
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-Text block content
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * Text block content * * */
+
+/* Headers */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Bungee", cursive;
+  text-shadow: var(--default-text-shadow);
+}
+h1 {
+  color: var(--secondary-text);
+  margin-bottom: 15px;
+  font-size: 2rem;
+}
+.no_margin {
+  margin-bottom: 0px;
+}
+h2 {
+  margin-bottom: 15px;
+}
 
 /* Overall styling, e.g. vertical spacing */
-p, ol, ul, pre, blockquote, figure, hr, dl {}
-
-p {}
-
-ol, ul {}
-ol {}
+p,
+ol,
+ul,
+pre,
+blockquote,
+figure,
+hr,
+dl {
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+p {
+}
+ol,
 ul {
-    width: 100%; 
-    display: grid;  
+  /* width: 100%;  */
+  list-style-type: none;
+  display: grid;
 }
 li {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 50px;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
 }
-ol ol, ol ul, ul ul, ul ol {}
-li li {}
 
-pre {}
-pre code {}
-pre samp {}
+/* * * Inline text semantics * * */
 
-blockquote {}
-
-figure {}
-figcaption {}
-
-hr {}
-
-dl {}
-dt {}
-dd {}
-
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-Inline text semantics
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-a {}
-a:visited {}
-a:hover {}
-a:active {}
-
-strong {}
-b {}
-
-em {}
-i {}
-
-q {}
-cite {}
-
-s {}
-
-mark {}
+a {
+  color: var(--tertiary);
+}
+a:hover {
+  color: var(--teal);
+}
+strong {
+}
+b {
+}
+em {
+}
+i {
+}
 
 /* If you specify a font size, consider using the `em` unit so that it works
 universally, e.g. for both `h1 small` and `p small` */
-small {}
-sub {}
-sup {}
-
-code {}
-
-dfn {}
-abbr {}
-abbr[title] {}
-
-var {}
-kbd {}
-kbd kbd {}
-samp {}
-
-u {}
-
-data {}
-time {}
-
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-Demarcating edits
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-del {}
-ins {}
-
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-Embedded content
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-img {}
-svg {}
-video {}
-canvas {}
-audio {}
-object {}
-
-noscript {}
-
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-Table content
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-table {}
-caption {}
-col:first-child {}
-thead {}
-tbody {}
-tfoot {}
-tr {}
-th {}
-td {}
-
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-Forms
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-fieldset {}
-fieldset:disabled {}
-legend {}
-
-form {
-    display: grid;
-    align-items: center;
-    justify-items: center;
-    background-color: #eeeeeeff;
-    padding: 15px;
-    border-radius: 10px;
+small {
+}
+data {
+}
+time {
 }
 
-label {}
+/* * * Demarcating edits * * */
 
-::placeholder {}
-:focus::placeholder {}
+del {
+}
+ins {
+}
+
+/* * * Embedded content * * */
+
+img {
+}
+.icon {
+  height: 30px;
+}
+.asset_img {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+svg {
+}
+
+/* * * Forms and buttons * * */
+
+fieldset {
+}
+fieldset:disabled {
+}
+legend {
+}
+form {
+  display: grid;
+  align-items: center;
+  justify-items: center;
+}
+label {
+  color: var(--secondary-text);
+}
+::placeholder {
+}
+:focus::placeholder {
+}
 
 /* Overall styling, e.g. vertical spacing */
-input, textarea, select, button {
-    padding: 10px;
-    margin: 10px;
-    border-radius: 10px;
-    border: solid;
-    border-color:rgb(146, 146, 146);
-    font-size: 28px;
-    color: var(--white)
+input {
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-radius: 30px;
+  border: none;
+  text-align: center;
+  color: var(--primary-text);
+  box-shadow: var(--default-box-shadow);
+}
+button {
+  width: 250px;
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-radius: 30px;
+  border: none;
+  text-align: center;
+  color: var(--primary-text);
+  background-color: var(--grey);
+  box-shadow: var(--default-box-shadow);
+}
+button:hover {
+  background-color: var(--tertiary);
+}
+button:disabled {
+}
+button.secondary {
+  border: none;
+  background-color: transparent;
+  color: var(--tertiary);
+  box-shadow: none;
+  margin: 0px;
+  padding: 0px;
+}
+button.secondary:disabled {
 }
 
-/* `textarea` and `input` elements that share a similar look and similar styling
-capabilities */
-/* - common styling */
-textarea,
-input[type="text"],
-input[type="password"],
-input[type="email"],
-input[type="tel"],
-input[type="number"],
-input[type="search"],
-input[type="url"],
-input[type="date"],
-input[type="datetime-local"],
-input[type="month"],
-input[type="week"],
-input[type="time"] {}
-/* - individual styling */
-textarea {}
-input[type="text"] {
-    background-color: var(--teal);
+/* Additional button classes */
+.button_icon {
+  width: 40px;
+  border: none;
+  background-color: transparent;
+  box-shadow: none;
+  margin: 0px;
+  padding: 5px;
 }
-input[type="password"] {}
-input[type="email"] {}
-input[type="tel"] {}
-input[type="number"] {}
-input[type="search"] {}
-input[type="url"] {}
-input[type="date"] {}
-input[type="datetime-local"] {}
-input[type="month"] {}
-input[type="week"] {}
-input[type="time"] {}
-/* Tick boxes */
-input[type="checkbox"], input[type="radio"] {}
-input[type="checkbox"]:checked, input[type="radio"]:checked {}
-input[type="checkbox"] {}
-input[type="checkbox"]:checked {}
-input[type="radio"] {}
-input[type="radio"]:checked {}
-/* Other input fields, some with limited styling capabilities */
-input[type="file"] {}
-input[type="color"] {}
-input[type="range"] {}
-
-select {}
-optgroup {}
-option {}
-option:checked {}
-datalist {}
-
-button,
-input[type="submit"] {
-    background-color: var(--orange);
-    border: none;
-    border-radius: 30px;
-    padding-left: 20px;
-    padding-right: 20px;
+.button_find {
+  padding: 0px;
+  overflow: hidden;
+  display: grid;
+  align-items: center;
+  text-align: center;
+  color: var(--secondary-text);
+  background-color: var(--mid-blue);
+  width: 60px;
+  height: 60px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-button:disabled,
-input[type="submit"]:disabled {}
-button.secondary {}
-button.secondary:disabled {}
+.button_find:hover {
+  /* border: solid;
+  border-width: 10px;
+  border-color: var(--tertiary); */
+  box-shadow: 0 0px 30px 0 var(--tertiary), 0 0px 30px 0 var(--tertiary);
+}
+
+.button_arrow {
+width: 50px;
+height: 45px;
+margin: 10px;
+padding: 0px;
+background-color: transparent;
+box-shadow: none;
+z-index: 2;
+}
+
+/* arrows */
+.arrow {
+  padding: 3px;
+  margin: 0px;
+  border: solid var(--white);
+  background-color: transparent;
+  box-shadow: none;
+  width: 40px;
+  height: 40px;
+  border-width: 0 10px 10px 0;
+  display: inline-block;
+  border-radius: 0px;
+}
+.right {
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+.left {
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+}
+.arrow:hover {
+  padding: 3px;
+  margin: 0px;
+  border: solid var(--tertiary);
+  background-color: transparent;
+  box-shadow: none;
+  width: 40px;
+  height: 40px;
+  border-width: 0 10px 10px 0;
+  display: inline-block;
+  border-radius: 0px;
+}
+
+.button_menu {
+  width: 150px;
+}
+
+/* player view */
+.button_player_view {
+  background-color: var(--secondary);
+  color: var(--secondary-text);
+}
+/* this ought to be made into a reusable element or put in specific player view section */
+.button_display {
+  padding: 10px;
+  margin: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 30px;
+  background-color: var(--secondary);
+  color: var(--secondary-text);
+}
 
 /* This matches forms or form elements that are invalid *and* have been
 interacted with. Note that:
@@ -312,31 +466,33 @@ Form validation error messages will appear (in capable browsers) regardless of
 this styling. You can omit 1) and 2) and still have working forms. Perfect
 example of progressive enhancement. */
 /* Applies to invalid forms */
-form.interacted:invalid {}
+form.interacted:invalid {
+}
 /* Applies to invalid form fields. You would need to repeat your declarations
 for the following three groups of selectors individually. Browsers completely
 ignore any rule that contains a selector they do not know. */
-form.interacted :invalid, form .touched:invalid {}
-:user-invalid {}
-:-moz-ui-invalid {}
+form.interacted :invalid,
+form .touched:invalid {
+}
+:user-invalid {
+}
+:-moz-ui-invalid {
+}
 
-output {}
+/* * * Interactive elements * * */
 
-progress {}
-meter {}
-
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-Interactive elements
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-details {}
-details[open] {}
-summary {}
-details[open] summary {}
-
-dialog {}
-dialog::backdrop {}
+details {
+}
+details[open] {
+}
+summary {
+}
+details[open] summary {
+}
+dialog {
+}
+dialog::backdrop {
+}
 
 /* Some form fields, `details`, elements with `tabindex`, and possibly other
 elements can be focussed. You should use `:focus-visible` instead of `:focus`
@@ -345,32 +501,24 @@ as follows:
 1) Set styling on focus
 2) If browser supports `:focus-visible`, revert/unset the styling from 1)
 3) If the element matches `:focus-visible`, apply the styling again */
-:focus {}
-:focus:not(:focus-visible) {}
-:focus-visible {}
+:focus {
+}
+:focus:not(:focus-visible) {
+}
+:focus-visible {
+}
 
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-Media queries
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * Media queries * * */
 
 @media (prefers-reduced-motion: reduce) {
 }
-
 @media (prefers-color-scheme: dark) {
 }
-
 @media (orientation: portrait) {
 }
-
 @media (orientation: landscape) {
 }
-
 @media print {
 }
 
-
-/*
-This file evolved from Natural Selection:
-https://github.com/frontaid/natural-selection
-*/
+/* This file evolved from Natural Selection: https://github.com/frontaid/natural-selection */
