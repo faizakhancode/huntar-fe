@@ -129,9 +129,9 @@ span {
 .pop_up {
   background-color: var(--mid-blue);
   display: grid;
-  align-content: flex-start;
   align-self: center;
   justify-self: center;
+  justify-items: center;
   border-radius: 10px;
   width: 70vw;
   color: var(--secondary-text);

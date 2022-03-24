@@ -24,7 +24,7 @@ export default function PlayerView({
             standing still.
           </p>
           <p>Happy Scavenging!</p>
-          <button onClick={handleClick}>Close</button>
+          <button onClick={handleClick}>Begin</button>
         </article>
       </div>
     ) : null;
