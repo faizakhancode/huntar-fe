@@ -1,0 +1,100 @@
+{
+  "themes": [
+    {
+      "theme_name": "fantasy",
+      "theme_id": 1,
+      "theme_img": "./themes/fantasy/asset_chest.png",
+      "finds": [
+        {
+          "find_id": 1,
+          "img_url": "./themes/fantasy/asset_chest.png",
+          "alt_text": "mushroom"
+        },
+        {
+          "find_id": 2,
+          "img_url": "./themes/fantasy/asset_chest.png",
+          "alt_text": "chest"
+        },
+        {
+          "find_id": 3,
+          "img_url": "./themes/fantasy/asset_chest.png",
+          "alt_text": "green gem"
+        },
+        {
+          "find_id": 4,
+          "img_url": "./themes/fantasy/asset_chest.png",
+          "alt_text": "red gem"
+        },
+        {
+          "find_id": 5,
+          "img_url": "./themes/fantasy/asset_chest.png",
+          "alt_text": "mushroom"
+        }
+      ]
+    },
+    {
+      "theme_name": "pirates",
+      "theme_id": 2,
+      "theme_img": "./themes/fantasy/asset_mushroom.png",
+      "finds": [
+        {
+          "find_id": 1,
+          "img_url": "./themes/fantasy/asset_mushroom.png",
+          "alt_text": "mushroom"
+        },
+        {
+          "find_id": 2,
+          "img_url": "./themes/fantasy/asset_mushroom.png",
+          "alt_text": "mushroom"
+        },
+        {
+          "find_id": 3,
+          "img_url": "./themes/fantasy/asset_mushroom.png",
+          "alt_text": "green gem"
+        },
+        {
+          "find_id": 4,
+          "img_url": "./themes/fantasy/asset_mushroom.png",
+          "alt_text": "red gem"
+        },
+        {
+          "find_id": 5,
+          "img_url": "./themes/fantasy/asset_mushroom.png",
+          "alt_text": "mushroom"
+        }
+      ]
+    },
+    {
+      "theme_name": "cowboys",
+      "theme_id": 3,
+      "theme_img": "./themes/fantasy/asset_red_gem.png",
+      "finds": [
+        {
+          "find_id": 1,
+          "img_url": "./themes/fantasy/asset_red_gem.png",
+          "alt_text": "red_gem"
+        },
+        {
+          "find_id": 2,
+          "img_url": "./themes/fantasy/asset_red_gem.png",
+          "alt_text": "red_gem"
+        },
+        {
+          "find_id": 3,
+          "img_url": "./themes/fantasy/asset_red_gem.png",
+          "alt_text": "green gem"
+        },
+        {
+          "find_id": 4,
+          "img_url": "./themes/fantasy/asset_red_gem.png",
+          "alt_text": "red gem"
+        },
+        {
+          "find_id": 5,
+          "img_url": "./themes/fantasy/asset_red_gem.png",
+          "alt_text": "red_gem"
+        }
+      ]
+    }
+  ]
+}
