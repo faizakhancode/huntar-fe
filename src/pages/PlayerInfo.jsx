@@ -8,6 +8,8 @@ export default function PlayerInfo({
   themeIndex,
   setFindSelected,
   findSelected,
+  findsPlaced,
+  gameMarkerPositions
 }) {
   return (
     <div className="page_container">
@@ -15,7 +17,12 @@ export default function PlayerInfo({
         <header>
           <h1 className="no_margin">Player Info</h1>
         </header>
-        <LocationsMap themes={themes} themeIndex={themeIndex} />
+        <LocationsMap
+          themes={themes}
+          themeIndex={themeIndex}
+          findsPlaced={findsPlaced}
+          gameMarkerPositions={gameMarkerPositions}
+        />
         <section>
           <FindList
             themes={themes}

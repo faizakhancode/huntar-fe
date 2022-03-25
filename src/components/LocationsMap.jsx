@@ -1,7 +1,13 @@
 import { React, useState, useCallback, useEffect } from "react";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 
-export default function LocationsMap({ themes, themeIndex }) {
+export default function LocationsMap({
+  themes,
+  themeIndex,
+  findsPlaced,
+  gameMarkerPositions,
+  setGameMarkerPositions,
+}) {
   // map container styling
   const containerStyle = {
     width: "100%",
@@ -10,8 +16,8 @@ export default function LocationsMap({ themes, themeIndex }) {
 
   // set map position (initial and current)
   const [currentPosition, setCurrentPosition] = useState({
-    lat: 53.745,
-    lng: 1.3,
+    lat: 53.445,
+    lng: -1.42,
   });
 
   const success = (position) => {
@@ -44,22 +50,48 @@ export default function LocationsMap({ themes, themeIndex }) {
     setMap(null);
   });
 
-  // markers
-  const finds = themes.themes[themeIndex].finds;
+  // Generate markers and initial positions. This is part of the state which will most likely change once back-end is hooked up
+  const [markerPositions, setMarkerPositions] = useState({
+    1: { lat: currentPosition.lat, lng: currentPosition.lng },
+    2: { lat: currentPosition.lat + 0.0002, lng: currentPosition.lng + 0.0002 },
+    3: { lat: currentPosition.lat + 0.0004, lng: currentPosition.lng + 0.0004 },
+    4: { lat: currentPosition.lat - 0.0002, lng: currentPosition.lng - 0.0002 },
+    5: { lat: currentPosition.lat - 0.0004, lng: currentPosition.lng - 0.0004 },
+  });
 
-  const mapMarkers = finds.map((find) => {
+  const finds = themes.themes[themeIndex].finds;
+  const filteredFinds = finds.filter((find) => {
+    return findsPlaced[find.find_id] === true;
+  });
+
+  const mapMarkers = filteredFinds.map((find) => {
     const image = {
       url: find.img_url,
       scaledSize: { width: 30, height: 30 },
+      alt: find.img_url,
     };
 
     return (
       <Marker
         clickable={true}
         draggable={true}
-        position={{ lat: currentPosition.lat, lng: currentPosition.lng }}
+        position={{
+          lat: gameMarkerPositions[find.find_id].lat,
+          lng: gameMarkerPositions[find.find_id].lng,
+        }}
         key={find.find_id}
         icon={image}
+        onDragEnd={(event) => {
+          const findId = find.find_id;
+          setMarkerPositions((currVal) => ({
+            ...currVal,
+            [findId]: { lat: event.latLng.lat(), lng: event.latLng.lng() },
+          }));
+          setGameMarkerPositions((currVal) => ({
+            ...currVal,
+            [findId]: { lat: event.latLng.lat(), lng: event.latLng.lng() },
+          }));
+        }}
       ></Marker>
     );
   });
@@ -295,6 +327,6 @@ export default function LocationsMap({ themes, themeIndex }) {
       </GoogleMap>
     </div>
   ) : (
-    <p>nomap</p>
+    <></>
   );
 }

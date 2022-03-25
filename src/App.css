@@ -21,6 +21,7 @@ pseudo-elements). One common use of this selector is to apply a custom
 :root {
   /* primary colours */
   --primary: #0097a7;
+  --primary-opaque: rgba(0, 150, 167, 0.644);
   --primary-dark: #008492;
   --secondary: #9900ff;
   --secondary-dark: #6a00b1;
@@ -74,7 +75,7 @@ nav {
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: right;
+  justify-content: center;
 }
 .nav_button_options{
   justify-content: center;
@@ -365,7 +366,6 @@ label {
 
 :checked + .find_checkbox_label {
   border-color: #ddd;
-
 }
 
 :checked + .find_checkbox_label:before {
@@ -494,11 +494,14 @@ border-radius: 0px;
 .button_display {
   padding: 10px;
   margin: 20px;
+  font-size: 0.9rem;
+  text-align: center;
   padding-left: 20px;
   padding-right: 20px;
-  border-radius: 30px;
-  background-color: var(--secondary);
+  border-radius: 10px;
+  background-color: var(--primary-opaque);
   color: var(--secondary-text);
+  box-shadow: var(--default-box-shadow)
 }
 
 /* This matches forms or form elements that are invalid *and* have been

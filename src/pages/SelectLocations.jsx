@@ -3,9 +3,14 @@ import { Link } from "react-router-dom";
 import LocationsMap from "../components/LocationsMap";
 import FindCheckBoxList from "../components/lists/FindCheckBoxList";
 
-export default function SelectLocations({ themes, themeIndex }) {
-  const [findsPlaced, setFindsPlaced] = useState({});
-
+export default function SelectLocations({
+  themes,
+  themeIndex,
+  findsPlaced,
+  setFindsPlaced,
+  gameMarkerPositions,
+  setGameMarkerPositions,
+}) {
   return (
     <div className="page_container">
       <header>
@@ -30,7 +35,13 @@ export default function SelectLocations({ themes, themeIndex }) {
             findsPlaced={findsPlaced}
           />
         </section>
-        <LocationsMap themes={themes} themeIndex={themeIndex} />
+        <LocationsMap
+          themes={themes}
+          themeIndex={themeIndex}
+          findsPlaced={findsPlaced}
+          gameMarkerPositions={gameMarkerPositions}
+          setGameMarkerPositions={setGameMarkerPositions}
+        />
         <section>
           <nav className="nav_button_options">
             <Link to="/set-up-game">

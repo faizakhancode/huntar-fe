@@ -18,5 +18,5 @@ export default function FindCheckBoxList({
     );
   });
 
-  return <ul className="ul_list_container">{findList}</ul>;
+  return <div className="ul_list_container">{findList}</div>;
 }

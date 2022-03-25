@@ -8,6 +8,8 @@ export default function ManageGame({
   themeIndex,
   setFindSelected,
   findSelected,
+  findsPlaced,
+  gameMarkerPositions
 }) {
   return (
     <div className="page_container">
@@ -24,7 +26,12 @@ export default function ManageGame({
             </button>
           </Link>
         </header>
-        <LocationsMap themes={themes} themeIndex={themeIndex} />
+        <LocationsMap
+          themes={themes}
+          themeIndex={themeIndex}
+          findsPlaced={findsPlaced}
+          gameMarkerPositions={gameMarkerPositions}
+        />
         <section>
           <FindList
             themes={themes}

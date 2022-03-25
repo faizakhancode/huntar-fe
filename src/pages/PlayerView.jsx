@@ -35,21 +35,21 @@ export default function PlayerView({
       <main>
         <Popup displayPopUp={displaySafetyPopUp} />
         <div className="camera_overlay">
+          <div className="button_display">
+            Score: 1350
+            <br />
+            Distance to nearest find: 130m
+            <br />
+            Time remaining: 2 min 43 sec
+          </div>
           <nav>
-            <div className="button_display">Score: 1350</div>
             <Link to="/player-info">
-              <button className="button_icon">
-                <img
-                  className="icon"
-                  src="../images/spiral-icon.png"
-                  alt="Show and hide menu selector"
-                />
-              </button>
+              <button className="button_menu">Get hint!</button>
+            </Link>
+            <Link to="/player-info">
+              <button className="button_menu">Menu</button>
             </Link>
           </nav>
-          <Link to="/player-info">
-            <button className="button_player_view">Get hint!</button>
-          </Link>
         </div>
         <section className="a_scene">
           <a-scene
