@@ -11,15 +11,35 @@ import themesJSON from "./themes.json";
 
 function App() {
   // Background data
+  // This is part of the state which will most likely change once back-end is hooked up
   const [themes, setThemes] = useState(themesJSON);
   const [newGame, setNewGame] = useState({});
 
   // User inputs and input states
+  // This is part of the state which will most likely change once back-end is hooked up
   const [gameInputs, setGameInputs] = useState({});
   const [themeIndex, setThemeIndex] = useState(0);
+  const [findsPlaced, setFindsPlaced] = useState({
+    1: false,
+    2: false,
+    3: false,
+    4: false,
+    5: false,
+  });
 
   // Game state
+  // This is part of the state which will most likely change once back-end is hooked up
   const [game, setGame] = useState({});
+  // Markers
+  // This is part of the state which will most likely change once back-end is hooked up
+  const [gameMarkerPositions, setGameMarkerPositions] = useState({
+    1: { lat: 53.2, lng: -1.47 },
+    2: { lat: 53.2, lng: -1.47 },
+    3: { lat: 53.2, lng: -1.47 },
+    3: { lat: 53.2, lng: -1.47 },
+    4: { lat: 53.2, lng: -1.47 },
+    5: { lat: 53.2, lng: -1.47 },
+  });
 
   // User notifications (pop ups, etc)
   const [displaySafetyPopUp, setDisplaySafetyPopUp] = useState(true);
@@ -40,11 +60,27 @@ function App() {
           />
           <Route
             path="/manage-game"
-            element={<ManageGame themes={themes} themeIndex={themeIndex} />}
+            element={
+              <ManageGame
+                themes={themes}
+                themeIndex={themeIndex}
+                findsPlaced={findsPlaced}
+                setFindsPlaced={setFindsPlaced}
+                gameMarkerPositions={gameMarkerPositions}
+              />
+            }
           />
           <Route
             path="/player-info"
-            element={<PlayerInfo themes={themes} themeIndex={themeIndex} />}
+            element={
+              <PlayerInfo
+                themes={themes}
+                themeIndex={themeIndex}
+                findsPlaced={findsPlaced}
+                setFindsPlaced={setFindsPlaced}
+                gameMarkerPositions={gameMarkerPositions}
+              />
+            }
           />
           <Route
             path="/select-locations"
@@ -53,6 +89,10 @@ function App() {
                 setNewGame={setNewGame}
                 themes={themes}
                 themeIndex={themeIndex}
+                findsPlaced={findsPlaced}
+                setFindsPlaced={setFindsPlaced}
+                gameMarkerPositions={gameMarkerPositions}
+                setGameMarkerPositions={setGameMarkerPositions}
               />
             }
           />
