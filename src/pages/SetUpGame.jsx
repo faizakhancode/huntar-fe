@@ -4,7 +4,6 @@ import Theme from "../components/Theme";
 
 export default function SetUpGame({
   themes,
-  setNewGame,
   gameInputs,
   setGameInputs,
   themeIndex,

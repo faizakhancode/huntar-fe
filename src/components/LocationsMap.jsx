@@ -7,6 +7,7 @@ export default function LocationsMap({
   findsPlaced,
   gameMarkerPositions,
   setGameMarkerPositions,
+  setGameInputs,
 }) {
   // map container styling
   const containerStyle = {
@@ -91,6 +92,14 @@ export default function LocationsMap({
             ...currVal,
             [findId]: { lat: event.latLng.lat(), lng: event.latLng.lng() },
           }));
+          setGameInputs((currVal) => {
+            currVal.assets[findId] = {
+              lat: event.latLng.lat(),
+              lng: event.latLng.lng(),
+              asset_id: findId,
+            };
+            return currVal;
+          });
         }}
       ></Marker>
     );

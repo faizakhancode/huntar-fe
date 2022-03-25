@@ -17,7 +17,16 @@ function App() {
 
   // User inputs and input states
   // This is part of the state which will most likely change once back-end is hooked up
-  const [gameInputs, setGameInputs] = useState({});
+
+  const initialGameInputs = {
+    game_name: "",
+    assets: {},
+  };
+
+  const [gameInputs, setGameInputs] = useState(initialGameInputs);
+
+  console.log("gameInputs", gameInputs);
+
   const [themeIndex, setThemeIndex] = useState(0);
   const [findsPlaced, setFindsPlaced] = useState({
     1: false,
@@ -33,9 +42,9 @@ function App() {
   // Markers
   // This is part of the state which will most likely change once back-end is hooked up
   const [gameMarkerPositions, setGameMarkerPositions] = useState({
+    game_name: "",
     1: { lat: 53.2, lng: -1.47 },
     2: { lat: 53.2, lng: -1.47 },
-    3: { lat: 53.2, lng: -1.47 },
     3: { lat: 53.2, lng: -1.47 },
     4: { lat: 53.2, lng: -1.47 },
     5: { lat: 53.2, lng: -1.47 },
@@ -93,6 +102,7 @@ function App() {
                 setFindsPlaced={setFindsPlaced}
                 gameMarkerPositions={gameMarkerPositions}
                 setGameMarkerPositions={setGameMarkerPositions}
+                setGameInputs={setGameInputs}
               />
             }
           />

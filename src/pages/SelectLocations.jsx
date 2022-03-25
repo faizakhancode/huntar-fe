@@ -10,6 +10,7 @@ export default function SelectLocations({
   setFindsPlaced,
   gameMarkerPositions,
   setGameMarkerPositions,
+  setGameInputs
 }) {
   return (
     <div className="page_container">
@@ -41,6 +42,7 @@ export default function SelectLocations({
           findsPlaced={findsPlaced}
           gameMarkerPositions={gameMarkerPositions}
           setGameMarkerPositions={setGameMarkerPositions}
+          setGameInputs={setGameInputs}
         />
         <section>
           <nav className="nav_button_options">

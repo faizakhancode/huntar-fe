@@ -34,11 +34,11 @@ export default function PlayerView({
   const tokenTheme = "fantasy";
   const tokenFolder = `https://bayardt.github.io/arassets/${tokenTheme}`;
   const tokenCoordinates = [
-    "latitude: 53.561081; longitude: -0.083805",
-    "latitude: 53.561104; longitude: -0.084025",
-    "latitude: 53.561078; longitude: -0.084270",
-    "latitude: 53.560993; longitude: -0.084216",
-    "latitude: 53.561011; longitude: -0.083920",
+    "latitude: 53.354055; longitude: -1.478052",
+    "latitude: 53.354255; longitude: -1.478252",
+    "latitude: 53.354455; longitude: -1.478452",
+    "latitude: 53.354655; longitude: -1.478652",
+    "latitude: 53.354955; longitude: -1.478852",
   ];
 
   document.addEventListener("increasescore", function () {
