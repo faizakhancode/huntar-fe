@@ -14,10 +14,13 @@ function App() {
   // This is part of the state which will most likely change once back-end is hooked up
   const [themes, setThemes] = useState(themesJSON);
   const [newGame, setNewGame] = useState({});
+  const [gameId, setGameId] = useState("");
 
   // User inputs and input states
   // This is part of the state which will most likely change once back-end is hooked up
-  const [gameInputs, setGameInputs] = useState({});
+  const [gameInputs, setGameInputs] = useState({game_name: "",
+  assets: {}});
+
   const [themeIndex, setThemeIndex] = useState(0);
   const [findsPlaced, setFindsPlaced] = useState({
     1: false,
@@ -48,13 +51,15 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home setGame={setGame} />} />
           <Route
-            path="/player-view"
+            path="/player-view/:id"
             element={
               <PlayerView
                 setDisplaySafetyPopUp={setDisplaySafetyPopUp}
                 displaySafetyPopUp={displaySafetyPopUp}
+                game={game}
+                themes={themes}
               />
             }
           />
@@ -67,6 +72,8 @@ function App() {
                 findsPlaced={findsPlaced}
                 setFindsPlaced={setFindsPlaced}
                 gameMarkerPositions={gameMarkerPositions}
+                gameId={gameId}
+                gameInputs={gameInputs}
               />
             }
           />
@@ -93,6 +100,9 @@ function App() {
                 setFindsPlaced={setFindsPlaced}
                 gameMarkerPositions={gameMarkerPositions}
                 setGameMarkerPositions={setGameMarkerPositions}
+                gameInputs={gameInputs}
+                setGameId={setGameId}
+                setGameInputs={setGameInputs}
               />
             }
           />

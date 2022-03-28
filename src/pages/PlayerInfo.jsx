@@ -41,7 +41,7 @@ export default function PlayerInfo({
           </div>
         </section>
         <section className="row_flex">
-          <Link to="/player-view">
+          <Link to="/player-view/:id">
             <button className="button_menu">Back</button>
           </Link>
           <Link to="/">

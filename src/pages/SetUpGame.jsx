@@ -13,9 +13,8 @@ export default function SetUpGame({
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
-    setGameInputs((values) => ({ ...values, [name]: value }));
-    console.log(gameInputs);
-  };
+     setGameInputs((values) => ({ ...values, [name]: value }));
+  }
 
   const themeList = themes.themes;
 
@@ -60,8 +59,8 @@ export default function SetUpGame({
           <input
             name="game_name"
             type="text"
-            value={gameInputs.game_name || ""}
-            onChange={handleChange}
+            value={gameInputs?.game_name}
+            onChange={(e) => handleChange(e)}
           ></input>
         </section>
         <section>
