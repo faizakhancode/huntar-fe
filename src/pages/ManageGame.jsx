@@ -9,8 +9,18 @@ export default function ManageGame({
   setFindSelected,
   findSelected,
   findsPlaced,
-  gameMarkerPositions
+  gameMarkerPositions,
+  gameId,
+  gameInputs
 }) {
+
+
+  const copyText = (event) => {
+    navigator.clipboard(gameId)
+    console.log(navigator.clipboard)
+  }
+
+
   return (
     <div className="page_container">
       <main>
@@ -31,6 +41,7 @@ export default function ManageGame({
           themeIndex={themeIndex}
           findsPlaced={findsPlaced}
           gameMarkerPositions={gameMarkerPositions}
+          gameInputs={gameInputs}
         />
         <section>
           <FindList
@@ -49,6 +60,7 @@ export default function ManageGame({
             <button className="button_arrow right" name="left"></button>
           </div>
         </section>
+        {gameId  ? <section><p color="white">{gameId}</p> <button onClick={copyText}>Copy Game ID link</button></section>: null}
         <section className="row_flex">
           <Link to="/">
             <button className="button_menu">Stop game</button>

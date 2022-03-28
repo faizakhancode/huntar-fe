@@ -2,6 +2,7 @@ import { React, useState } from "react";
 import { Link } from "react-router-dom";
 import LocationsMap from "../components/LocationsMap";
 import FindCheckBoxList from "../components/lists/FindCheckBoxList";
+import { postGames } from "../utils/api";
 
 export default function SelectLocations({
   themes,
@@ -10,7 +11,17 @@ export default function SelectLocations({
   setFindsPlaced,
   gameMarkerPositions,
   setGameMarkerPositions,
-}) {
+  gameInputs, 
+  setGameId,
+  setGameInputs
+}) {  
+  
+  const createGame = () => {
+    postGames(gameInputs).then((res) => setGameId(res)).catch(err => console.log(err))
+  }
+
+
+
   return (
     <div className="page_container">
       <header>
@@ -41,6 +52,8 @@ export default function SelectLocations({
           findsPlaced={findsPlaced}
           gameMarkerPositions={gameMarkerPositions}
           setGameMarkerPositions={setGameMarkerPositions}
+          setGameInputs={setGameInputs}
+          gameInputs={gameInputs}
         />
         <section>
           <nav className="nav_button_options">
@@ -48,7 +61,7 @@ export default function SelectLocations({
               <button className="button_menu">Back</button>
             </Link>
             <Link to="/manage-game">
-              <button className="button_menu">Confirm</button>
+              <button onClick={() => createGame()} className="button_menu">Confirm</button>
             </Link>
           </nav>
         </section>

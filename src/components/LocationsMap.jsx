@@ -6,7 +6,8 @@ export default function LocationsMap({
   themeIndex,
   findsPlaced,
   gameMarkerPositions,
-  setGameMarkerPositions,
+  setGameInputs,
+  gameInputs
 }) {
   // map container styling
   const containerStyle = {
@@ -36,7 +37,8 @@ export default function LocationsMap({
     id: "google-map-script",
     googleMapsApiKey: process.env.REACT_APP_MAP_API,
   });
-
+ 
+  
   // set map
   const [map, setMap] = useState(null);
 
@@ -50,14 +52,6 @@ export default function LocationsMap({
     setMap(null);
   });
 
-  // Generate markers and initial positions. This is part of the state which will most likely change once back-end is hooked up
-  const [markerPositions, setMarkerPositions] = useState({
-    1: { lat: currentPosition.lat, lng: currentPosition.lng },
-    2: { lat: currentPosition.lat + 0.0002, lng: currentPosition.lng + 0.0002 },
-    3: { lat: currentPosition.lat + 0.0004, lng: currentPosition.lng + 0.0004 },
-    4: { lat: currentPosition.lat - 0.0002, lng: currentPosition.lng - 0.0002 },
-    5: { lat: currentPosition.lat - 0.0004, lng: currentPosition.lng - 0.0004 },
-  });
 
   const finds = themes.themes[themeIndex].finds;
   const filteredFinds = finds.filter((find) => {
@@ -76,21 +70,21 @@ export default function LocationsMap({
         clickable={true}
         draggable={true}
         position={{
-          lat: gameMarkerPositions[find.find_id].lat,
-          lng: gameMarkerPositions[find.find_id].lng,
+          lat: gameInputs?.assets[find.find_id]?.latitude  || 53.445,
+          lng: gameInputs?.assets[find.find_id]?.longitude  || -1.42,
         }}
         key={find.find_id}
         icon={image}
         onDragEnd={(event) => {
           const findId = find.find_id;
-          setMarkerPositions((currVal) => ({
-            ...currVal,
-            [findId]: { lat: event.latLng.lat(), lng: event.latLng.lng() },
-          }));
-          setGameMarkerPositions((currVal) => ({
-            ...currVal,
-            [findId]: { lat: event.latLng.lat(), lng: event.latLng.lng() },
-          }));
+          setGameInputs((currVal) => {
+            currVal.assets[findId] = {
+              latitude: event.latLng.lat(),
+              longitude: event.latLng.lng(),
+              asset_name: themes.themes[themeIndex].theme_id,
+            };
+            return currVal;
+          })
         }}
       ></Marker>
     );

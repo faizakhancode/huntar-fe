@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { getGames } from "../utils/api";
+import { useNavigate } from "react-router-dom";
 
-export default function Home() {
+export default function Home({setGame}) {
   const [displayPopUp, setDisplayPopUp] = useState(false);
+  const [cantLink, setCantLink] = useState(false)
+  const [searchGame, setSearchGame] = useState('')
+  const navigate = useNavigate();
 
-  function handleSubmit() {
-    console.log("handle submit: ", "game joined");
+  function handleSubmit () {
+    getGames(searchGame).then((res) => {
+    setGame(res)
+    navigate(`/player-view/${res._id}`)}).catch(err => setCantLink(true))
   }
 
   function handleClick() {
@@ -43,12 +50,15 @@ export default function Home() {
       </header>
       <main>
         <section className="home_background">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit()}}>
             <label htmlFor="game-id">Enter your Game ID:</label>
-            <input name="game-id" type="text"></input>
-            <Link to="/player-view">
-              <button>Join Game</button>
-            </Link>
+            <input onChange={(e) =>{setSearchGame(e.target.value)}} value={searchGame} name="game-id" type="text"></input>
+           {cantLink ? <p>This game does not exist</p> : null}
+            {/* <Link to={`/player-view/${}`}> */}
+              <button type='submit'>Join Game</button>
+            {/* </Link> */}
           </form>
         </section>
         <section>

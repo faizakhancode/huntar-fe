@@ -1,10 +1,18 @@
 import React, {useState} from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { getGames } from "../utils/api";
+import { useParams } from "react-router-dom";
 
 export default function PlayerView({
   displaySafetyPopUp,
   setDisplaySafetyPopUp,
+  game,
+  themes
 }) {
+////game is what is returned from the fetch request
+
+
   function handleClick() {
     if (!displaySafetyPopUp) {
       setDisplaySafetyPopUp(true);
@@ -30,15 +38,21 @@ export default function PlayerView({
     ) : null;
   }
 
+  // const {id} = useParams();
+  // useEffect(() => {
+  //   getGames(id).then((gameRes) => setGame(gameRes)) 
+  // })
+
   const [currScore, setCurrScore] = useState(0);
-  const tokenTheme = "fantasy";
-  const tokenFolder = `https://bayardt.github.io/arassets/${tokenTheme}`;
+  const tokenTheme = game.assets[1].asset_name
+  const asset = themes.themes.filter((obj) => obj.theme_id == tokenTheme)
+  const tokenFolder = `https://bayardt.github.io/arassets/${asset[0].theme_name}`;
   const tokenCoordinates = [
-    "latitude: 53.561081; longitude: -0.083805",
-    "latitude: 53.561104; longitude: -0.084025",
-    "latitude: 53.561078; longitude: -0.084270",
-    "latitude: 53.560993; longitude: -0.084216",
-    "latitude: 53.561011; longitude: -0.083920",
+    `latitude: ${game.assets[1].latitude}; longitude: ${game.assets[1].longitude}`,
+    `latitude: ${game.assets[2].latitude}; longitude: ${game.assets[2].longitude}`,
+    `latitude: ${game.assets[3].latitude}; longitude: ${game.assets[3].longitude}`,
+    `latitude: ${game.assets[4].latitude}; longitude: ${game.assets[4].longitude}`,
+    `latitude: ${game.assets[5].latitude}; longitude: ${game.assets[5].longitude}`,
   ];
 
   document.addEventListener("increasescore", function () {
