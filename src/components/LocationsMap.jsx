@@ -29,6 +29,7 @@ export default function LocationsMap({
     setCurrentPosition(currentPosition);
   };
 
+
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(success);
   }, []);
@@ -38,19 +39,25 @@ export default function LocationsMap({
     googleMapsApiKey: process.env.REACT_APP_MAP_API,
   });
  
-  
+
   // set map
-  const [map, setMap] = useState(null);
+  // const [map, setMap] = useState(null);
+ 
 
-  const onLoad = useCallback((map) => {
-    const bounds = new window.google.maps.LatLngBounds();
-    map.fitBounds(bounds);
-    setMap(map);
-  }, []);
+  // The below code caused the default ocean centre issue
 
-  const onUnmount = useCallback((map) => {
-    setMap(null);
-  });
+  // const onLoad = useCallback((map) => {
+  //   const bounds = new window.google.maps.LatLngBounds();
+  //   map.fitBounds(bounds);
+  //   setMap(map);
+
+  // }, []);
+
+
+
+  // const onUnmount = useCallback((map) => {
+  //   setMap(null);
+  // });
 
 
   const finds = themes.themes[themeIndex].finds;
@@ -70,8 +77,8 @@ export default function LocationsMap({
         clickable={true}
         draggable={true}
         position={{
-          lat: gameInputs?.assets[find.find_id]?.latitude  || 53.445,
-          lng: gameInputs?.assets[find.find_id]?.longitude  || -1.42,
+          lat: gameInputs?.assets[find.find_id]?.latitude  || currentPosition.lat,
+          lng: gameInputs?.assets[find.find_id]?.longitude  || currentPosition.lng
         }}
         key={find.find_id}
         icon={image}
@@ -94,7 +101,7 @@ export default function LocationsMap({
     <div className="map_container">
       <GoogleMap
         mapContainerStyle={containerStyle}
-        center={currentPosition}
+        center={new window.google.maps.LatLng(currentPosition.lat, currentPosition.lng)}
         zoom={10}
         options={{
           styles: [
@@ -314,8 +321,8 @@ export default function LocationsMap({
           ],
           disableDefaultUI: true,
         }}
-        onLoad={onLoad}
-        onUnmount={onUnmount}
+        // onLoad={onLoad}
+        // onUnmount={onUnmount}
       >
         {mapMarkers}
       </GoogleMap>

@@ -17,11 +17,17 @@ export default function SelectLocations({
 }) {  
   
   const createGame = () => {
-if (Object.keys(gameInputs.assets).length === 4) {
-  postGames(gameInputs).then((res) => setGameId(res))
+    const gameCheck = Object.keys(gameInputs.assets).length === 5;
+if (gameCheck){
+  postGames(gameInputs).then((res) => setGameId(res)).catch((err) => {
+    console.log(err)
+  })
 } 
   }
 
+
+
+ 
 
   return (
     <div className="page_container">
@@ -62,7 +68,7 @@ if (Object.keys(gameInputs.assets).length === 4) {
               <button className="button_menu">Back</button>
             </Link>
             <Link to="/manage-game">
-              <button  disabled={ !Object.keys(gameInputs.assets).length === 4} onClick={() => createGame()} className={`button_menu ${ Object.keys(gameInputs.assets).length === 4? null: 'disabled'}`}>Confirm</button>
+              <button  disabled={Object.keys(gameInputs.assets).length === 4 ? false:true} onClick={() => createGame()} className={`button_menu ${ Object.keys(gameInputs.assets).length === 4? null: 'disabled'}`}>Confirm</button>
             </Link>
           </nav>
         </section>
