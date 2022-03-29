@@ -8,7 +8,7 @@ pseudo-elements). One common use of this selector is to apply a custom
 *::after {
   margin: 0;
   padding: 0;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   text-decoration: none;
   font-size: 18px;
   color: var(--secondary-text);
@@ -16,7 +16,7 @@ pseudo-elements). One common use of this selector is to apply a custom
 
 /* * * Root * * */
 
-@import url("https://fonts.googleapis.com/css2?family=Bungee&family=Montserrat&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Montserrat&display=swap');
 
 :root {
   /* primary colours */
@@ -28,6 +28,7 @@ pseudo-elements). One common use of this selector is to apply a custom
   --tertiary: #ffc400;
   --grey: #f3f3f3;
   --white: #ffffffff;
+  --grey-opaque: rgba(93, 104, 105, 0.349);
 
   /* text colours */
   --primary-text: #010f1d;
@@ -77,7 +78,7 @@ nav {
   align-items: center;
   justify-content: center;
 }
-.nav_button_options{
+.nav_button_options {
   justify-content: center;
 }
 
@@ -164,7 +165,7 @@ span {
 }
 
 .home_background {
-  background-image: linear-gradient(var(--secondary-dark),var(--secondary) );
+  background-image: linear-gradient(var(--secondary-dark), var(--secondary));
   clip-path: polygon(0 0, 100% 0, 100% 87%, 0 100%);
 }
 
@@ -201,7 +202,6 @@ span {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-
 /* * * Text block content * * */
 
 /* Headers */
@@ -211,7 +211,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Bungee", cursive;
+  font-family: 'Bungee', cursive;
   text-shadow: var(--default-text-shadow);
 }
 h1 {
@@ -340,7 +340,7 @@ label {
 .find_checkbox_label:before {
   background-color: white;
   color: white;
-  content: " ";
+  content: ' ';
   display: block;
   border-radius: 50%;
   border: 1px solid var(--tertiary);
@@ -369,7 +369,7 @@ label {
 }
 
 :checked + .find_checkbox_label:before {
-  content: "✓";
+  content: '✓';
   background-color: var(--tertiary);
   transform: scale(1);
 }
@@ -393,7 +393,7 @@ input {
   color: var(--primary-text);
   box-shadow: var(--default-box-shadow);
 }
-input[type="checkbox"] {
+input[type='checkbox'] {
   display: none;
 }
 
@@ -455,19 +455,19 @@ button.secondary:disabled {
 
 /* Arrow buttons */
 .button_arrow {
-width: 25px;
-height: 25px;
-margin: 10px;
-padding: 0px;
-background-color: transparent;
-z-index: 2;
-border: solid var(--white);
-box-shadow: none;
-border-width: 0 10px 10px 0;
-display: inline-block;
-border-radius: 0px;
+  width: 25px;
+  height: 25px;
+  margin: 10px;
+  padding: 0px;
+  background-color: transparent;
+  z-index: 2;
+  border: solid var(--white);
+  box-shadow: none;
+  border-width: 0 10px 10px 0;
+  display: inline-block;
+  border-radius: 0px;
 }
-.button_arrow:hover{
+.button_arrow:hover {
   background-color: transparent;
   border: solid var(--tertiary);
   border-width: 0 10px 10px 0;
@@ -501,7 +501,70 @@ border-radius: 0px;
   border-radius: 10px;
   background-color: var(--primary-opaque);
   color: var(--secondary-text);
-  box-shadow: var(--default-box-shadow)
+  box-shadow: var(--default-box-shadow);
+}
+.game-id-link {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.game-id-link p {
+  font-size: 0.8rem;
+}
+
+.copied-message p {
+  padding: 3px;
+  padding-bottom: 6px;
+  border-radius: 5px;
+  height: 0.8rem;
+  margin: 0px;
+  border: 1px solid rgb(74, 87, 75);
+  background: var(--mid-blue);
+}
+
+.overall-loading {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  height: 100vh;
+  background-color: var(--primary-dark);
+}
+
+.overall-loading h3 {
+  font-size: 1rem;
+  margin-right: 10px;
+  color: var(--grey);
+  text-align: center;
+}
+
+.loader {
+  border: 4px solid #8f8f8f; /* Light grey */
+  border-top: 4px solid white;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.error {
+  flex-direction: column;
+  display: flex;
+}
+
+.disabled {
+  background-color: var(--grey-opaque);
 }
 
 /* This matches forms or form elements that are invalid *and* have been

@@ -1,29 +1,53 @@
-import React, {useState} from "react";
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import { Link, useParams } from "react-router-dom";
 import { getGames } from "../utils/api";
-import { useParams } from "react-router-dom";
+
 
 export default function PlayerView({
   displaySafetyPopUp,
   setDisplaySafetyPopUp,
   game,
-  themes
+  themes,
+  setGame
 }) {
-////game is what is returned from the fetch request
+  ////game is what is returned from the fetch request
+  
+  const [isLoading, setIsLoading] = useState(true)
+  const [currScore, setCurrScore] = useState(0);
+const [error, setError] =useState(false)
 
 
-  function handleClick() {
-    if (!displaySafetyPopUp) {
-      setDisplaySafetyPopUp(true);
-    } else {
-      setDisplaySafetyPopUp(false);
-    }
+  const {id} = useParams();
+  useEffect(() => { 
+    setIsLoading(true)
+    getGames(id).then((gameRes) => {setGame(gameRes) 
+      setIsLoading(false)
+    }).catch(() => {
+      setError(true);
+      setIsLoading(false);
+    })
+  }, [id, setGame])
+
+  if (isLoading) {return <div className="overall-loading" ><h3>Loading </h3> <div className="loader"></div></div>;}
+
+  if (error) {
+     return <div className="overall-loading error" 
+     ><h3> AR-gh, damn! game does not exist </h3> 
+     <Link to='/'> <button className="error-page-button"> Home </button> </Link>
+     </div>
   }
 
-  function Popup({ displayPopUp }) {
-    return displayPopUp ? (
-      <div className="pop_up_overlay">
+function handleClick() {
+  if (!displaySafetyPopUp) {
+    setDisplaySafetyPopUp(true);
+  } else {
+    setDisplaySafetyPopUp(false);
+  }
+}
+
+function Popup({ displayPopUp }) {
+  return displayPopUp ? (
+    <div className="pop_up_overlay">
         <article className="pop_up">
           <h2>You're almost ready to begin...</h2>
           <p>But please take a moment to learn how to play HuntAR safely!</p>
@@ -37,15 +61,10 @@ export default function PlayerView({
       </div>
     ) : null;
   }
-
-  // const {id} = useParams();
-  // useEffect(() => {
-  //   getGames(id).then((gameRes) => setGame(gameRes)) 
-  // })
-
-  const [currScore, setCurrScore] = useState(0);
+  
+  
   const tokenTheme = game.assets[1].asset_name
-  const asset = themes.themes.filter((obj) => obj.theme_id == tokenTheme)
+  const asset = themes.themes.filter((obj) => obj.theme_id === +tokenTheme)
   const tokenFolder = `https://bayardt.github.io/arassets/${asset[0].theme_name}`;
   const tokenCoordinates = [
     `latitude: ${game.assets[1].latitude}; longitude: ${game.assets[1].longitude}`,
@@ -54,11 +73,11 @@ export default function PlayerView({
     `latitude: ${game.assets[4].latitude}; longitude: ${game.assets[4].longitude}`,
     `latitude: ${game.assets[5].latitude}; longitude: ${game.assets[5].longitude}`,
   ];
-
+  
   document.addEventListener("increasescore", function () {
     setCurrScore(currScore + 1);
   });
-
+  
 
   return (
     <div className="page_container">

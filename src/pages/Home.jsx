@@ -54,7 +54,7 @@ export default function Home({setGame}) {
             e.preventDefault();
             handleSubmit()}}>
             <label htmlFor="game-id">Enter your Game ID:</label>
-            <input onChange={(e) =>{setSearchGame(e.target.value)}} value={searchGame} name="game-id" type="text"></input>
+            <input placeholder="Enter gameId code ..." onChange={(e) =>{setSearchGame(e.target.value)}} value={searchGame} name="game-id" type="text"></input>
            {cantLink ? <p>This game does not exist</p> : null}
             {/* <Link to={`/player-view/${}`}> */}
               <button type='submit'>Join Game</button>
