@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React } from "react";
 import { Link } from "react-router-dom";
 import LocationsMap from "../components/LocationsMap";
 import FindCheckBoxList from "../components/lists/FindCheckBoxList";
@@ -17,9 +17,10 @@ export default function SelectLocations({
 }) {  
   
   const createGame = () => {
-    postGames(gameInputs).then((res) => setGameId(res)).catch(err => console.log(err))
+if (Object.keys(gameInputs.assets).length === 4) {
+  postGames(gameInputs).then((res) => setGameId(res))
+} 
   }
-
 
 
   return (
@@ -61,7 +62,7 @@ export default function SelectLocations({
               <button className="button_menu">Back</button>
             </Link>
             <Link to="/manage-game">
-              <button onClick={() => createGame()} className="button_menu">Confirm</button>
+              <button  disabled={ !Object.keys(gameInputs.assets).length === 4} onClick={() => createGame()} className={`button_menu ${ Object.keys(gameInputs.assets).length === 4? null: 'disabled'}`}>Confirm</button>
             </Link>
           </nav>
         </section>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import LocationsMap from "../components/LocationsMap";
 import FindList from "../components/lists/FindList";
@@ -14,11 +14,28 @@ export default function ManageGame({
   gameInputs
 }) {
 
+const [copied, setCopied] = useState(false)
 
   const copyText = (event) => {
-    navigator.clipboard(gameId)
-    console.log(navigator.clipboard)
+    navigator.clipboard.writeText(gameId).then(res => {
+      setCopied(true);
+      setTimeout(() => {
+        setCopied(false) 
+      }, 4000)
   }
+    )};
+
+    const shareFunc = () => {
+      const shareData = {
+        title: 'Hunt-AR',
+        text: 'You have been invited to play a hunt-AR game via the following link:',
+        url: `https://scavengar.netlify.app/player-view/${gameId}`,
+      }
+      if (gameId) {
+        navigator.share(shareData)
+      } 
+    }
+
 
 
   return (
@@ -60,14 +77,12 @@ export default function ManageGame({
             <button className="button_arrow right" name="left"></button>
           </div>
         </section>
-        {gameId  ? <section><p color="white">{gameId}</p> <button onClick={copyText}>Copy Game ID link</button></section>: null}
+        {gameId  ? <section className="game-id-link"><p color="white"> Your gameID: {gameId} </p> <button  onClick={copyText}>Copy Game ID link</button>{copied? <div className="copied-message"><p>Copied</p></div>: null} </section>: null}
         <section className="row_flex">
           <Link to="/">
             <button className="button_menu">Stop game</button>
           </Link>
-          <Link to="/">
-            <button className="button_menu">Share</button>
-          </Link>
+            <button className="button_menu" onClick={shareFunc}>Share</button>
         </section>
       </main>
     </div>

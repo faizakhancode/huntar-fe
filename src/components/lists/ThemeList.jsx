@@ -1,7 +1,6 @@
 import Theme from "../Theme";
 
 export default function ThemeList({ themes }) {
-  console.log("themes: ", themes);
 
   const themeList = themes.map((theme) => {
     return <Theme theme={theme} key={theme.theme_id} />;

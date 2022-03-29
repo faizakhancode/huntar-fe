@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React} from "react";
 import { Link } from "react-router-dom";
 import Theme from "../components/Theme";
 
@@ -56,7 +56,7 @@ export default function SetUpGame({
       <main>
         <section>
           <label htmlFor="game-name">Choose a name for your game:</label>
-          <input
+          <input  placeholder="Game name required..."
             name="game_name"
             type="text"
             value={gameInputs?.game_name}
@@ -85,7 +85,7 @@ export default function SetUpGame({
               <button className="button_menu">Back</button>
             </Link>
             <Link to="/select-locations">
-              <button className="button_menu">Next</button>
+              <button disabled={gameInputs.game_name? false: true}className="button_menu">Next</button>
             </Link>
           </nav>
         </section>

@@ -1,25 +1,24 @@
-import { useState } from "react";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
-import "./App.css";
-import PlayerView from "./pages/PlayerView";
-import ManageGame from "./pages/ManageGame";
-import Home from "./pages/Home";
-import PlayerInfo from "./pages/PlayerInfo";
-import SelectLocations from "./pages/SelectLocations";
-import SetUpGame from "./pages/SetUpGame";
-import themesJSON from "./themes.json";
+import { useState } from 'react';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import './App.css';
+import PlayerView from './pages/PlayerView';
+import ManageGame from './pages/ManageGame';
+import Home from './pages/Home';
+import PlayerInfo from './pages/PlayerInfo';
+import SelectLocations from './pages/SelectLocations';
+import SetUpGame from './pages/SetUpGame';
+import themesJSON from './themes.json';
 
 function App() {
   // Background data
   // This is part of the state which will most likely change once back-end is hooked up
   const [themes, setThemes] = useState(themesJSON);
   const [newGame, setNewGame] = useState({});
-  const [gameId, setGameId] = useState("");
+  const [gameId, setGameId] = useState('');
 
   // User inputs and input states
   // This is part of the state which will most likely change once back-end is hooked up
-  const [gameInputs, setGameInputs] = useState({game_name: "",
-  assets: {}});
+  const [gameInputs, setGameInputs] = useState({ game_name: '', assets: {} });
 
   const [themeIndex, setThemeIndex] = useState(0);
   const [findsPlaced, setFindsPlaced] = useState({
@@ -60,6 +59,7 @@ function App() {
                 displaySafetyPopUp={displaySafetyPopUp}
                 game={game}
                 themes={themes}
+                setGame={setGame}
               />
             }
           />
