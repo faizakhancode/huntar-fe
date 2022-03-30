@@ -23,7 +23,7 @@ export default function PlayerView({
       const token = document.querySelector(`#token${index}`);
       if (token.getAttribute("scale").x > 0 && token.getAttribute("distance")) {
         const currDistance = parseInt(token.getAttribute("distance"));
-        console.log(closestDistance, currDistance)
+        console.log(closestDistance, currDistance);
         if (currDistance >= closestDistance) return;
         closestDistance = currDistance;
         closestToken = `#token${index}`;
@@ -57,15 +57,51 @@ export default function PlayerView({
   const [nearestToken, setNearestToken] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [debugMsg, setDebugMsg] = useState();
-  const tokenTheme = "pirates";
+  const [error, setError] = useState(false);
+  const tokenTheme = game.assets[1].asset_name;
+  const asset = themes.themes.filter((obj) => obj.theme_id === +tokenTheme);
   const tokenFolder = `${process.env.PUBLIC_URL}/assets/${tokenTheme}`;
   const tokenCoordinates = [
-    "latitude: 53.56176787673671; longitude: -0.08315141203327776",
-    "latitude: 53.56106561576446; longitude: -0.08321274575244496",
-    "latitude: 53.56082405641427; longitude: -0.08366462118521138",
-    "latitude: 53.56097045618509; longitude: -0.08407952499166055",
-    "latitude: 53.56107049573711; longitude: -0.08434243433436102",
+    `latitude: ${game.assets[1].latitude}; longitude: ${game.assets[1].longitude}`,
+    `latitude: ${game.assets[2].latitude}; longitude: ${game.assets[2].longitude}`,
+    `latitude: ${game.assets[3].latitude}; longitude: ${game.assets[3].longitude}`,
+    `latitude: ${game.assets[4].latitude}; longitude: ${game.assets[4].longitude}`,
+    `latitude: ${game.assets[5].latitude}; longitude: ${game.assets[5].longitude}`,
   ];
+
+  const { id } = useParams();
+  useEffect(() => {
+    setIsLoading(true);
+    getGames(id)
+      .then((gameRes) => {
+        setGame(gameRes);
+        setIsLoading(false);
+      })
+      .catch(() => {
+        setError(true);
+        setIsLoading(false);
+      });
+  }, [id, setGame]);
+
+  if (isLoading) {
+    return (
+      <div className="overall-loading">
+        <h3>Loading </h3> <div className="loader"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="overall-loading error">
+        <h3> AR-gh, damn! game does not exist </h3>
+        <Link to="/">
+          {" "}
+          <button className="error-page-button"> Home </button>{" "}
+        </Link>
+      </div>
+    );
+  }
 
   document.addEventListener("increasescore", function () {
     setCurrScore(currScore + 1);
