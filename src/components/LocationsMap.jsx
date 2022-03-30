@@ -303,7 +303,7 @@ export default function LocationsMap({
               ],
             },
           ],
-          disableDefaultUI: true,
+          disableDefaultUI: false,
         }}
       >
         {mapMarkers}

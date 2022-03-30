@@ -105,6 +105,7 @@ export default function PlayerView({
      <Link to='/'> <button className="error-page-button"> Home </button> </Link>
      </div>
   }
+
 function handleClick() {
   if (!displaySafetyPopUp) {
     setDisplaySafetyPopUp(true);
@@ -112,6 +113,7 @@ function handleClick() {
     setDisplaySafetyPopUp(false);
   }
   }
+}
 
   function Popup({ displayPopUp }) {
     return displayPopUp ? (
