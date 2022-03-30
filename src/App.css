@@ -513,6 +513,10 @@ button.secondary:disabled {
   font-size: 0.8rem;
 }
 
+.game-id-text {
+  font-weight: lighter;
+}
+
 .copied-message p {
   padding: 3px;
   padding-bottom: 6px;
@@ -565,6 +569,28 @@ button.secondary:disabled {
 
 .disabled {
   background-color: var(--grey-opaque);
+}
+
+.winner {
+  flex-direction: column;
+  display: flex;
+}
+
+.location-loading {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  height: 45vh;
+  background-color: var(--primary-dark);
+}
+
+.location-loading h3 {
+  font-size: 1rem;
+  margin-right: 15px;
+  color: var(--grey);
+  text-align: center;
 }
 
 /* This matches forms or form elements that are invalid *and* have been

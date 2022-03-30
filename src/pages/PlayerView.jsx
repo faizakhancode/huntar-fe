@@ -37,6 +37,12 @@ const [error, setError] =useState(false)
      </div>
   }
 
+  if(currScore === 5) {
+    return <div className="overall-loading winner" 
+     ><h4 className="winner-page" > You A-R a winner!</h4> 
+     <Link to='/'> <button className="error-page-button"> Home </button> </Link>
+     </div>
+  }
 function handleClick() {
   if (!displaySafetyPopUp) {
     setDisplaySafetyPopUp(true);

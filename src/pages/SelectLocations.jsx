@@ -1,4 +1,4 @@
-import { React } from "react";
+import { React, useState } from "react";
 import { Link } from "react-router-dom";
 import LocationsMap from "../components/LocationsMap";
 import FindCheckBoxList from "../components/lists/FindCheckBoxList";
@@ -16,6 +16,8 @@ export default function SelectLocations({
   setGameInputs
 }) {  
   
+
+
   const createGame = () => {
     const gameCheck = Object.keys(gameInputs.assets).length === 5;
 if (gameCheck){
@@ -26,8 +28,6 @@ if (gameCheck){
   }
 
 
-
- 
 
   return (
     <div className="page_container">
