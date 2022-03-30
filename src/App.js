@@ -12,8 +12,7 @@ import themesJSON from './themes.json';
 function App() {
   // Background data
   // This is part of the state which will most likely change once back-end is hooked up
-  const [themes, setThemes] = useState(themesJSON);
-  const [newGame, setNewGame] = useState({});
+  const [themes] = useState(themesJSON);
   const [gameId, setGameId] = useState('');
 
   // User inputs and input states
@@ -74,6 +73,7 @@ function App() {
                 gameMarkerPositions={gameMarkerPositions}
                 gameId={gameId}
                 gameInputs={gameInputs}
+                setGameInputs={setGameInputs}
               />
             }
           />
@@ -93,7 +93,6 @@ function App() {
             path="/select-locations"
             element={
               <SelectLocations
-                setNewGame={setNewGame}
                 themes={themes}
                 themeIndex={themeIndex}
                 findsPlaced={findsPlaced}
@@ -110,7 +109,6 @@ function App() {
             path="/set-up-game"
             element={
               <SetUpGame
-                setNewGame={setNewGame}
                 themes={themes}
                 gameInputs={gameInputs}
                 setGameInputs={setGameInputs}

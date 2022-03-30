@@ -11,7 +11,9 @@ export default function ManageGame({
   findsPlaced,
   gameMarkerPositions,
   gameId,
-  gameInputs
+  gameInputs,
+  setGameInputs,
+  setFindsPlaced
 }) {
 
 const [copied, setCopied] = useState(false)
@@ -36,7 +38,16 @@ const [copied, setCopied] = useState(false)
       } 
     }
 
-
+const clearGame = () => {
+  setGameInputs({ game_name: '', assets: {} }) 
+  setFindsPlaced({
+    1: false,
+    2: false,
+    3: false,
+    4: false,
+    5: false,
+  })
+}
 
   return (
     <div className="page_container">
@@ -68,7 +79,7 @@ const [copied, setCopied] = useState(false)
             findSelected={findSelected}
           />
         </section>
-        <section>
+        {/* <section>
           <div className="theme_selector_container">
             <button className="button_arrow left" name="left"></button>
             <div className="theme_container">
@@ -76,11 +87,11 @@ const [copied, setCopied] = useState(false)
             </div>
             <button className="button_arrow right" name="left"></button>
           </div>
-        </section>
-        {gameId  ? <section className="game-id-link"><p color="white"> Your gameID: {gameId} </p> <button  onClick={copyText}>Copy Game ID link</button>{copied? <div className="copied-message"><p>Copied</p></div>: null} </section>: null}
+        </section> */}
+        {gameId  ? <section className="game-id-link"><h3 className="game-id-text"> Your gameID: {gameId} </h3> <button  onClick={copyText}>Copy Game ID link</button>{copied? <div className="copied-message"><p>Copied</p></div>: null} </section>: null}
         <section className="row_flex">
           <Link to="/">
-            <button className="button_menu">Stop game</button>
+            <button onClick={clearGame} className="button_menu">Clear game</button>
           </Link>
             <button className="button_menu" onClick={shareFunc}>Share</button>
         </section>

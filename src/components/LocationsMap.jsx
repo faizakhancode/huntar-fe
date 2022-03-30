@@ -7,7 +7,8 @@ export default function LocationsMap({
   findsPlaced,
   gameMarkerPositions,
   setGameInputs,
-  gameInputs
+  gameInputs,
+  setIsLoading
 }) {
   // map container styling
   const containerStyle = {
@@ -33,31 +34,12 @@ export default function LocationsMap({
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(success);
   }, []);
-
+  
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: process.env.REACT_APP_MAP_API,
   });
  
-
-  // set map
-  // const [map, setMap] = useState(null);
- 
-
-  // The below code caused the default ocean centre issue
-
-  // const onLoad = useCallback((map) => {
-  //   const bounds = new window.google.maps.LatLngBounds();
-  //   map.fitBounds(bounds);
-  //   setMap(map);
-
-  // }, []);
-
-
-
-  // const onUnmount = useCallback((map) => {
-  //   setMap(null);
-  // });
 
 
   const finds = themes.themes[themeIndex].finds;
@@ -96,6 +78,8 @@ export default function LocationsMap({
       ></Marker>
     );
   });
+
+
 
   return isLoaded ? (
     <div className="map_container">
@@ -321,13 +305,11 @@ export default function LocationsMap({
           ],
           disableDefaultUI: true,
         }}
-        // onLoad={onLoad}
-        // onUnmount={onUnmount}
       >
         {mapMarkers}
       </GoogleMap>
     </div>
   ) : (
-    <></>
+    <div className="location-loading" ><h3>Loading </h3> <div className="loader"></div></div>
   );
 }

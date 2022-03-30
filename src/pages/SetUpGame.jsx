@@ -1,20 +1,33 @@
-import { React} from "react";
+import { React, useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 import Theme from "../components/Theme";
 
 export default function SetUpGame({
   themes,
-  setNewGame,
   gameInputs,
   setGameInputs,
   themeIndex,
   setThemeIndex,
+
 }) {
+
+  const [isLoading, setIsLoading] = useState(true)
+
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
      setGameInputs((values) => ({ ...values, [name]: value }));
   }
+
+useEffect(() => {
+  if (themes) {
+    setIsLoading(false) 
+  }
+}, [])
+
+
+if (isLoading) {return <div className="overall-loading" ><h3>Loading </h3> <div className="loader"></div></div>;}
+
 
   const themeList = themes.themes;
 
