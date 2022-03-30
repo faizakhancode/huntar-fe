@@ -33,10 +33,10 @@ function App() {
   const [game, setGame] = useState({});
   // Markers
   // This is part of the state which will most likely change once back-end is hooked up
+
   const [gameMarkerPositions, setGameMarkerPositions] = useState({
     1: { lat: 53.2, lng: -1.47 },
     2: { lat: 53.2, lng: -1.47 },
-    3: { lat: 53.2, lng: -1.47 },
     3: { lat: 53.2, lng: -1.47 },
     4: { lat: 53.2, lng: -1.47 },
     5: { lat: 53.2, lng: -1.47 },
@@ -86,6 +86,7 @@ function App() {
                 findsPlaced={findsPlaced}
                 setFindsPlaced={setFindsPlaced}
                 gameMarkerPositions={gameMarkerPositions}
+                game={game}
               />
             }
           />

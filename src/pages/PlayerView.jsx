@@ -9,56 +9,12 @@ export default function PlayerView({
   themes,
   setGame,
 }) {
-  ////game is what is returned from the fetch request
-  // 624424ff36324b8f99dcbda6 - Test Game ID (Grimsby)
+
 
   const [isLoading, setIsLoading] = useState(true);
   const [currScore, setCurrScore] = useState(0);
   const [error, setError] = useState(false);
-  // const [userLat, setUserLat] = useState();
-  // const [userLon, setUserLon] = useState();
-  // const [distanceToToken, setDistanceToToken] = useState();
-
-  // const getUserLocation = () => {
-  //    var options = {
-  //      enableHighAccuracy: true,
-  //      timeout: 5000,
-  //      maximumAge: 0,
-  //    };
-
-  //   function success(pos) {
-  //     var crd = pos.coords;
-  //     setUserLat(crd.latitude);
-  //     setUserLon(crd.longitude);
-  //   }
-
-  //   function errorLoc(err) {
-  //     console.warn(`ERROR(${err.code}): ${err.message}`);
-  //   }
-
-  //   navigator.geolocation.getCurrentPosition(success, errorLoc, options);
-  // };
-
-  // const getDistanceFromTokens = (lat1, lon1, lat2, lon2) => {
-  //   console.log(lat1, lon1, lat2, lon2)
-  //   var R = 6371; // Radius of the earth in km
-  //   var dLat = deg2rad(lat2 - lat1); // deg2rad below
-  //   var dLon = deg2rad(lon2 - lon1);
-  //   var a =
-  //     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-  //     Math.cos(deg2rad(lat1)) *
-  //       Math.cos(deg2rad(lat2)) *
-  //       Math.sin(dLon / 2) *
-  //       Math.sin(dLon / 2);
-  //   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  //   var d = R * c; // Distance in km
-  //   return d;
-  // };
-
-  // function deg2rad(deg) {
-  //   return deg * (Math.PI / 180);
-  // }
-
+  
   const { id } = useParams();
   useEffect(() => {
     setIsLoading(true);
@@ -142,15 +98,7 @@ function handleClick() {
     `latitude: ${game.assets[5].latitude}; longitude: ${game.assets[5].longitude}`,
   ];
 
-  // const getNearestToken = () => {
-  //   getUserLocation()
-  //   for (let index = 1; index < 6; index++) {
-  //     if (!document.querySelector(`#token${index}`)) return;
-  //     setDistanceToToken(getDistanceFromTokens(userLat, userLon, game.assets[index].latitude, game.assets[index].longitude))
-  //   }
-  //   };
-
-  //   getNearestToken()
+ 
 
   return (
     <div className="page_container">
@@ -158,6 +106,8 @@ function handleClick() {
         <Popup displayPopUp={displaySafetyPopUp} />
         <div className="camera_overlay">
           <div className="button_display">
+             {game.game_name} 
+            <br />
             Score: {currScore}
             {/* <br />
             Distance to nearest find: {distanceToToken} */}
@@ -206,7 +156,7 @@ function handleClick() {
                 animation__fusing="property: scale; startEvents: fusing; easing: easeInCubic; dur: 1500; from: 1 1 1; to: 0.1 0.1 0.1"
                 animation__mouseleave="property: scale; startEvents: mouseleave; easing: easeInCubic; dur: 500; to: 1 1 1 "
                 cursor="fuse: true;"
-                material="color: black; shader: flat"
+                material="color: white; shader: flat"
                 position="0 0 -3"
                 geometry="primitive: ring; radius-inner: 0.8; radius-outer: 0.9"
               ></a-entity>
