@@ -110,7 +110,7 @@ function handleClick() {
     setDisplaySafetyPopUp(true);
   } else {
     setDisplaySafetyPopUp(false);
-
+  }
   }
 
   function Popup({ displayPopUp }) {
