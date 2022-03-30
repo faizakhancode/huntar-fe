@@ -11,7 +11,13 @@ export const getGames = (id) => {
 };
 
 export const postGames = (gamesObj) => {
-  return api.post('/games', gamesObj).then(({ data }) => {
-    return data.objectId;
-  });
+  console.log(gamesObj);
+  return api
+    .post('/games', gamesObj)
+    .then(({ data }) => {
+      return data.objectId;
+    })
+    .catch((err) => {
+      return err;
+    });
 };
