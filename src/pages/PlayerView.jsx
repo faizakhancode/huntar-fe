@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "aframe-state-component";
 import "../utils/aframeStates";
+import "aframe-arrow-component";
 
 export default function PlayerView({
   displaySafetyPopUp,
@@ -14,6 +15,25 @@ export default function PlayerView({
       setDisplaySafetyPopUp(false);
     }
   }
+
+  const getLocations = () => {
+    let closestDistance = 1000;
+    let closestToken = "";
+    for (let index = 1; index < 6; index++) {
+      const token = document.querySelector(`#token${index}`);
+      if (token.getAttribute("scale").x > 0 && token.getAttribute("distance")) {
+        const currDistance = parseInt(token.getAttribute("distance"));
+        console.log(closestDistance, currDistance)
+        if (currDistance >= closestDistance) return;
+        closestDistance = currDistance;
+        closestToken = `#token${index}`;
+      }
+    }
+    setDistanceMsg(`${closestDistance} meters`);
+    document
+      .querySelector("#pointer")
+      .setAttribute("look-at", `${closestToken}`);
+  };
 
   function Popup({ displayPopUp }) {
     return displayPopUp ? (
@@ -33,33 +53,41 @@ export default function PlayerView({
   }
 
   const [currScore, setCurrScore] = useState(0);
-  const tokenTheme = "fantasy";
-  const tokenFolder = `https://bayardt.github.io/arassets/${tokenTheme}`;
+  const [distanceMsg, setDistanceMsg] = useState();
+  const [nearestToken, setNearestToken] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+  const [debugMsg, setDebugMsg] = useState();
+  const tokenTheme = "pirates";
+  const tokenFolder = `${process.env.PUBLIC_URL}/assets/${tokenTheme}`;
   const tokenCoordinates = [
-    "latitude: 53.561081; longitude: -0.083805",
-    "latitude: 53.561104; longitude: -0.084025",
-    "latitude: 53.561078; longitude: -0.084270",
-    "latitude: 53.560993; longitude: -0.084216",
-    "latitude: 53.561011; longitude: -0.083920",
+    "latitude: 53.56176787673671; longitude: -0.08315141203327776",
+    "latitude: 53.56106561576446; longitude: -0.08321274575244496",
+    "latitude: 53.56082405641427; longitude: -0.08366462118521138",
+    "latitude: 53.56097045618509; longitude: -0.08407952499166055",
+    "latitude: 53.56107049573711; longitude: -0.08434243433436102",
   ];
-
-  let distance = "0";
 
   document.addEventListener("increasescore", function () {
     setCurrScore(currScore + 1);
-    // let distances = document
-    //   .querySelectorAll("[camera]")
-    //   .object3D.position.distanceTo(
-        const assetPositions = document.querySelectorAll("[gps-projected-entity-place]")
-        // console.log(assetPositions)
-        const assetDistances = assetPositions.forEach((asset) => {
-          const distanceMsg = asset
-        console.log(distanceMsg)})
-        // .object3D
-        // .position)
-      // );
-    // console.log(assetDistances);
+    getLocations();
   });
+
+  window.onload = () => {
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    let timer1 = setTimeout(() => {
+      getLocations();
+    }, 3000);
+    const interval = setInterval(() => {
+      getLocations();
+    }, 10000);
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timer1);
+    };
+  }, [isLoading]);
 
   return (
     <div className="page_container">
@@ -69,9 +97,9 @@ export default function PlayerView({
           <div className="button_display">
             Score: {currScore}
             <br />
-            Distance to nearest find: {distance}
+            Nearest token: {distanceMsg}
             <br />
-            Time remaining: 2 min 43 sec
+            {debugMsg}
           </div>
           <nav>
             <Link to="/player-info">
@@ -86,16 +114,16 @@ export default function PlayerView({
           {/* A-Frame Scene */}
           <a-scene
             vr-mode-ui="enabled: false"
-            arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: true;"
+            arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false;"
             renderer="antialias: true; alpha: true"
           >
             {/* Token Structure */}
             <a-assets>
               <a-mixin id="clickable" increase-action></a-mixin>
-
               <a-mixin
                 id="token"
-                scale="1, 1, 1"
+                position="0 0 0"
+                scale="1 1 1"
                 rotation="0 0 0"
                 animation="property: rotation; to: 0 360 0; loop: true; dur: 10000"
                 animation__click="startEvents: click; property: scale; from: 1 1 1; to: 0 0 0; dur: 1000"
@@ -104,8 +132,8 @@ export default function PlayerView({
 
             {/* 3D Camera */}
             <a-camera
+              gps-camera="gpsMinDistance: 1; maxDistance: 100"
               look-controls-enabled="false"
-              gps-projected-camera="gpsMinDistance: 5"
               arjs-look-controls="smoothingFactor: 0.1"
               rotation-reader
             >
@@ -115,10 +143,16 @@ export default function PlayerView({
                 animation__fusing="property: scale; startEvents: fusing; easing: easeInCubic; dur: 1500; from: 1 1 1; to: 0.1 0.1 0.1"
                 animation__mouseleave="property: scale; startEvents: mouseleave; easing: easeInCubic; dur: 500; to: 1 1 1 "
                 cursor="fuse: true;"
-                raycaster="objects: .placedToken"
                 material="color: black; shader: flat"
                 position="0 0 -3"
                 geometry="primitive: ring; radius-inner: 0.8; radius-outer: 0.9"
+              ></a-entity>
+
+              <a-entity
+                id="pointer"
+                arrow="headLength: .5; headWidth: .25; direction: 0 0 1"
+                position="0 -2 -3"
+                look-at={nearestToken}
               ></a-entity>
             </a-camera>
 
@@ -130,40 +164,46 @@ export default function PlayerView({
             ></a-entity>
 
             {/* Tokens */}
-            <a-gltf-model
-              mixin="clickable token"
-              class="placedToken"
-              src={tokenFolder + "/token2.glb"}
-              gps-projected-entity-place={tokenCoordinates[0]}
-            ></a-gltf-model>
 
-            <a-gltf-model
+            <a-entity
+              id="token1"
               mixin="clickable token"
-              class="placedToken"
-              src={tokenFolder + "/token2.glb"}
-              gps-projected-entity-place={tokenCoordinates[1]}
-            ></a-gltf-model>
+              gps-entity-place={tokenCoordinates[0]}
+              gltf-model={`url(${tokenFolder}/token1.glb)`}
+              increase-action
+            ></a-entity>
 
-            <a-gltf-model
+            <a-entity
+              id="token2"
               mixin="clickable token"
-              class="placedToken"
-              src={tokenFolder + "/token2.glb"}
-              gps-projected-entity-place={tokenCoordinates[2]}
-            ></a-gltf-model>
+              gps-entity-place={tokenCoordinates[1]}
+              gltf-model={`url(${tokenFolder}/token2.glb)`}
+              increase-action
+            ></a-entity>
 
-            <a-gltf-model
+            <a-entity
+              id="token3"
               mixin="clickable token"
-              class="placedToken"
-              src={tokenFolder + "/token2.glb"}
-              gps-projected-entity-place={tokenCoordinates[3]}
-            ></a-gltf-model>
+              gps-entity-place={tokenCoordinates[2]}
+              gltf-model={`url(${tokenFolder}/token3.glb)`}
+              increase-action
+            ></a-entity>
 
-            <a-gltf-model
+            <a-entity
+              id="token4"
               mixin="clickable token"
-              class="placedToken"
-              src={tokenFolder + "/token3.glb"}
-              gps-projected-entity-place={tokenCoordinates[4]}
-            ></a-gltf-model>
+              gps-entity-place={tokenCoordinates[3]}
+              gltf-model={`url(${tokenFolder}/token4.glb)`}
+              increase-action
+            ></a-entity>
+
+            <a-entity
+              id="token5"
+              mixin="clickable token"
+              gps-entity-place={tokenCoordinates[4]}
+              gltf-model={`url(${tokenFolder}/token5.glb)`}
+              increase-action
+            ></a-entity>
           </a-scene>
         </section>
       </main>
