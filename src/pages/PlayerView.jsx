@@ -113,7 +113,7 @@ function handleClick() {
     setDisplaySafetyPopUp(false);
   }
   }
-}
+
 
   function Popup({ displayPopUp }) {
     return displayPopUp ? (
