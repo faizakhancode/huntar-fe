@@ -8,13 +8,21 @@ export default function PlayerView({
   displaySafetyPopUp,
   setDisplaySafetyPopUp,
 }) {
-  function handleClick() {
-    if (!displaySafetyPopUp) {
-      setDisplaySafetyPopUp(true);
-    } else {
-      setDisplaySafetyPopUp(false);
-    }
-  }
+  const [currScore, setCurrScore] = useState(0);
+  const [distanceMsg, setDistanceMsg] = useState();
+  const [nearestToken, setNearestToken] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const tokenTheme = game.assets[1].asset_name;
+  const asset = themes.themes.filter((obj) => obj.theme_id === +tokenTheme);
+  const tokenFolder = `${process.env.PUBLIC_URL}/assets/${tokenTheme}`;
+  const tokenCoordinates = [
+    `latitude: ${game.assets[1].latitude}; longitude: ${game.assets[1].longitude}`,
+    `latitude: ${game.assets[2].latitude}; longitude: ${game.assets[2].longitude}`,
+    `latitude: ${game.assets[3].latitude}; longitude: ${game.assets[3].longitude}`,
+    `latitude: ${game.assets[4].latitude}; longitude: ${game.assets[4].longitude}`,
+    `latitude: ${game.assets[5].latitude}; longitude: ${game.assets[5].longitude}`,
+  ];
 
   const getLocations = () => {
     let closestDistance = 1000;
@@ -35,6 +43,27 @@ export default function PlayerView({
       .setAttribute("look-at", `${closestToken}`);
   };
 
+  const { id } = useParams();
+  useEffect(() => {
+    setIsLoading(true);
+    getGames(id)
+      .then((gameRes) => {
+        setGame(gameRes);
+        setIsLoading(false);
+      })
+      .catch(() => {
+        setError(true);
+        setIsLoading(false);
+      });
+  }, [id, setGame]);
+  function handleClick() {
+    if (!displaySafetyPopUp) {
+      setDisplaySafetyPopUp(true);
+    } else {
+      setDisplaySafetyPopUp(false);
+    }
+  }
+
   function Popup({ displayPopUp }) {
     return displayPopUp ? (
       <div className="pop_up_overlay">
@@ -51,37 +80,6 @@ export default function PlayerView({
       </div>
     ) : null;
   }
-
-  const [currScore, setCurrScore] = useState(0);
-  const [distanceMsg, setDistanceMsg] = useState();
-  const [nearestToken, setNearestToken] = useState();
-  const [isLoading, setIsLoading] = useState(true);
-  const [debugMsg, setDebugMsg] = useState();
-  const [error, setError] = useState(false);
-  const tokenTheme = game.assets[1].asset_name;
-  const asset = themes.themes.filter((obj) => obj.theme_id === +tokenTheme);
-  const tokenFolder = `${process.env.PUBLIC_URL}/assets/${tokenTheme}`;
-  const tokenCoordinates = [
-    `latitude: ${game.assets[1].latitude}; longitude: ${game.assets[1].longitude}`,
-    `latitude: ${game.assets[2].latitude}; longitude: ${game.assets[2].longitude}`,
-    `latitude: ${game.assets[3].latitude}; longitude: ${game.assets[3].longitude}`,
-    `latitude: ${game.assets[4].latitude}; longitude: ${game.assets[4].longitude}`,
-    `latitude: ${game.assets[5].latitude}; longitude: ${game.assets[5].longitude}`,
-  ];
-
-  const { id } = useParams();
-  useEffect(() => {
-    setIsLoading(true);
-    getGames(id)
-      .then((gameRes) => {
-        setGame(gameRes);
-        setIsLoading(false);
-      })
-      .catch(() => {
-        setError(true);
-        setIsLoading(false);
-      });
-  }, [id, setGame]);
 
   if (isLoading) {
     return (
@@ -118,7 +116,7 @@ export default function PlayerView({
     }, 3000);
     const interval = setInterval(() => {
       getLocations();
-    }, 10000);
+    }, 5000);
     return () => {
       clearInterval(interval);
       clearTimeout(timer1);
@@ -134,8 +132,6 @@ export default function PlayerView({
             Score: {currScore}
             <br />
             Nearest token: {distanceMsg}
-            <br />
-            {debugMsg}
           </div>
           <nav>
             <Link to="/player-info">
