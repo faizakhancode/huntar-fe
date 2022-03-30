@@ -1,53 +1,114 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getGames } from "../utils/api";
-
 
 export default function PlayerView({
   displaySafetyPopUp,
   setDisplaySafetyPopUp,
   game,
   themes,
-  setGame
+  setGame,
 }) {
   ////game is what is returned from the fetch request
-  
-  const [isLoading, setIsLoading] = useState(true)
+  // 624424ff36324b8f99dcbda6 - Test Game ID (Grimsby)
+
+  const [isLoading, setIsLoading] = useState(true);
   const [currScore, setCurrScore] = useState(0);
-const [error, setError] =useState(false)
+  const [error, setError] = useState(false);
+  // const [userLat, setUserLat] = useState();
+  // const [userLon, setUserLon] = useState();
+  // const [distanceToToken, setDistanceToToken] = useState();
 
+  // const getUserLocation = () => {
+  //    var options = {
+  //      enableHighAccuracy: true,
+  //      timeout: 5000,
+  //      maximumAge: 0,
+  //    };
 
-  const {id} = useParams();
-  useEffect(() => { 
-    setIsLoading(true)
-    getGames(id).then((gameRes) => {setGame(gameRes) 
-      setIsLoading(false)
-    }).catch(() => {
-      setError(true);
-      setIsLoading(false);
-    })
-  }, [id, setGame])
+  //   function success(pos) {
+  //     var crd = pos.coords;
+  //     setUserLat(crd.latitude);
+  //     setUserLon(crd.longitude);
+  //   }
 
-  if (isLoading) {return <div className="overall-loading" ><h3>Loading </h3> <div className="loader"></div></div>;}
+  //   function errorLoc(err) {
+  //     console.warn(`ERROR(${err.code}): ${err.message}`);
+  //   }
+
+  //   navigator.geolocation.getCurrentPosition(success, errorLoc, options);
+  // };
+
+  // const getDistanceFromTokens = (lat1, lon1, lat2, lon2) => {
+  //   console.log(lat1, lon1, lat2, lon2)
+  //   var R = 6371; // Radius of the earth in km
+  //   var dLat = deg2rad(lat2 - lat1); // deg2rad below
+  //   var dLon = deg2rad(lon2 - lon1);
+  //   var a =
+  //     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+  //     Math.cos(deg2rad(lat1)) *
+  //       Math.cos(deg2rad(lat2)) *
+  //       Math.sin(dLon / 2) *
+  //       Math.sin(dLon / 2);
+  //   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  //   var d = R * c; // Distance in km
+  //   return d;
+  // };
+
+  // function deg2rad(deg) {
+  //   return deg * (Math.PI / 180);
+  // }
+
+  const { id } = useParams();
+  useEffect(() => {
+    setIsLoading(true);
+    getGames(id)
+      .then((gameRes) => {
+        setGame(gameRes);
+        setIsLoading(false);
+      })
+      .catch(() => {
+        setError(true);
+        setIsLoading(false);
+      });
+  }, [id, setGame]);
+
+  if (isLoading) {
+    return (
+      <div className="overall-loading">
+        <h3>Loading </h3> <div className="loader"></div>
+      </div>
+    );
+  }
+
+  document.addEventListener("increasescore", function () {
+    setCurrScore(currScore + 1);
+    // getNearestToken()
+  });
 
   if (error) {
-     return <div className="overall-loading error" 
-     ><h3> AR-gh, damn! game does not exist </h3> 
-     <Link to='/'> <button className="error-page-button"> Home </button> </Link>
-     </div>
+    return (
+      <div className="overall-loading error">
+        <h3> AR-gh, damn! game does not exist </h3>
+        <Link to="/">
+          {" "}
+          <button className="error-page-button"> Home </button>{" "}
+        </Link>
+      </div>
+    );
   }
 
-function handleClick() {
-  if (!displaySafetyPopUp) {
-    setDisplaySafetyPopUp(true);
-  } else {
-    setDisplaySafetyPopUp(false);
+  function handleClick() {
+    if (!displaySafetyPopUp) {
+      setDisplaySafetyPopUp(true);
+    } else {
+      setDisplaySafetyPopUp(false);
+    }
   }
-}
 
-function Popup({ displayPopUp }) {
-  return displayPopUp ? (
-    <div className="pop_up_overlay">
+  function Popup({ displayPopUp }) {
+    return displayPopUp ? (
+      <div className="pop_up_overlay">
         <article className="pop_up">
           <h2>You're almost ready to begin...</h2>
           <p>But please take a moment to learn how to play HuntAR safely!</p>
@@ -61,11 +122,9 @@ function Popup({ displayPopUp }) {
       </div>
     ) : null;
   }
-  
-  
-  const tokenTheme = game.assets[1].asset_name
-  const asset = themes.themes.filter((obj) => obj.theme_id === +tokenTheme)
-  const tokenFolder = `https://bayardt.github.io/arassets/${asset[0].theme_name}`;
+
+  const tokenTheme = game.assets[1].asset_name;
+  const tokenFolder = `${process.env.PUBLIC_URL}/assets/${tokenTheme}`;
   const tokenCoordinates = [
     `latitude: ${game.assets[1].latitude}; longitude: ${game.assets[1].longitude}`,
     `latitude: ${game.assets[2].latitude}; longitude: ${game.assets[2].longitude}`,
@@ -73,11 +132,16 @@ function Popup({ displayPopUp }) {
     `latitude: ${game.assets[4].latitude}; longitude: ${game.assets[4].longitude}`,
     `latitude: ${game.assets[5].latitude}; longitude: ${game.assets[5].longitude}`,
   ];
-  
-  document.addEventListener("increasescore", function () {
-    setCurrScore(currScore + 1);
-  });
-  
+
+  // const getNearestToken = () => {
+  //   getUserLocation()
+  //   for (let index = 1; index < 6; index++) {
+  //     if (!document.querySelector(`#token${index}`)) return;
+  //     setDistanceToToken(getDistanceFromTokens(userLat, userLon, game.assets[index].latitude, game.assets[index].longitude))
+  //   }
+  //   };
+
+  //   getNearestToken()
 
   return (
     <div className="page_container">
@@ -86,10 +150,8 @@ function Popup({ displayPopUp }) {
         <div className="camera_overlay">
           <div className="button_display">
             Score: {currScore}
-            <br />
-            Distance to nearest find: 130m
-            <br />
-            Time remaining: 2 min 43 sec
+            {/* <br />
+            Distance to nearest find: {distanceToToken} */}
           </div>
           <nav>
             <Link to="/player-info">
@@ -119,28 +181,11 @@ function Popup({ displayPopUp }) {
                 animation="property: rotation; to: 0 360 0; loop: true; dur: 10000"
                 animation__click="startEvents: click; property: scale; from: 1 1 1; to: 0 0 0; dur: 1000"
               ></a-mixin>
-
-              {/* Token 3D assets */}
-              {/* <a-asset-item
-            id="token1"
-            response-type="arraybuffer"
-            src={tokenFolder + "/token1.glb"}
-          ></a-asset-item> */}
-
-              <a-asset-item
-                id="token2"
-                response-type="arraybuffer"
-                src={tokenFolder + "/token2.glb"}
-              ></a-asset-item>
-
-              <a-asset-item
-                id="token3"
-                src={tokenFolder + "/token3.glb"}
-              ></a-asset-item>
             </a-assets>
 
             {/* 3D Camera */}
             <a-camera
+              far="25"
               look-controls-enabled="false"
               gps-projected-camera="gpsMinDistance: 1"
               rotation-reader
@@ -167,32 +212,37 @@ function Popup({ displayPopUp }) {
 
             {/* Tokens */}
             <a-gltf-model
+              id="token1"
               mixin="clickable token"
-              src={tokenFolder + "/token2.glb"}
+              src={tokenFolder + "/token.glb"}
               gps-projected-entity-place={tokenCoordinates[0]}
             ></a-gltf-model>
 
             <a-gltf-model
+              id="token2"
               mixin="clickable token"
-              src={tokenFolder + "/token2.glb"}
+              src={tokenFolder + "/token.glb"}
               gps-projected-entity-place={tokenCoordinates[1]}
             ></a-gltf-model>
 
             <a-gltf-model
+              id="token3"
               mixin="clickable token"
-              src={tokenFolder + "/token2.glb"}
+              src={tokenFolder + "/token.glb"}
               gps-projected-entity-place={tokenCoordinates[2]}
             ></a-gltf-model>
 
             <a-gltf-model
+              id="token4"
               mixin="clickable token"
-              src={tokenFolder + "/token2.glb"}
+              src={tokenFolder + "/token.glb"}
               gps-projected-entity-place={tokenCoordinates[3]}
             ></a-gltf-model>
 
             <a-gltf-model
+              id="token5"
               mixin="clickable token"
-              src={tokenFolder + "/token3.glb"}
+              src={tokenFolder + "/token.glb"}
               gps-projected-entity-place={tokenCoordinates[4]}
             ></a-gltf-model>
           </a-scene>
