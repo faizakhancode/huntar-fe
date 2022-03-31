@@ -46,7 +46,7 @@ export default function Home({setGame}) {
   return (
     <div className="page_container">
       <header className="secondary_background">
-        <h1 className="no_margin">ScavengAR</h1>
+        <h1 className="no_margin">Hunt-AR</h1>
       </header>
       <main>
         <section className="home_background">
@@ -66,7 +66,7 @@ export default function Home({setGame}) {
             <button>Create New Game</button>
           </Link>
           <br />
-          <p>New to ScavengAR?</p>
+          <p>New to Hunt-AR?</p>
           <button className="secondary" onClick={handleClick}>
             More info
           </button>

@@ -1,6 +1,6 @@
-# scavangAR-fe
+# Hunt-AR-fe
 
-The frontend repository for ScavengAR, a browser-first, quick to set up and accessible AR treasure hunt game.
+The frontend repository for Hunt-AR, a browser-first, quick to set up and accessible AR treasure hunt game.
 
 <br />
 
