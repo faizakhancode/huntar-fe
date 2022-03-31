@@ -1,7 +1,7 @@
 import { React, useState, useCallback, useEffect } from "react";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 
-export default async function GameMap({
+export default function GameMap({
   themes,
   game,
 }) {
@@ -12,7 +12,10 @@ export default async function GameMap({
   };
 
   // set map position (initial and current)
-  const [currentPosition, setCurrentPosition] = useState();
+  const [currentPosition, setCurrentPosition] = useState({
+    lat: 53.445,
+    lng: -1.42,
+  });
   const [isLoading, setIsLoading] = useState(true)
 
   const success = (position) => {
