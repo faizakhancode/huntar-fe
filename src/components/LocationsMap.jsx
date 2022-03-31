@@ -1,14 +1,12 @@
-import { React, useState, useCallback, useEffect } from "react";
+import { React, useState, useEffect } from "react";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 
 export default function LocationsMap({
   themes,
   themeIndex,
   findsPlaced,
-  gameMarkerPositions,
   setGameInputs,
   gameInputs,
-  setIsLoading
 }) {
   // map container styling
   const containerStyle = {
@@ -86,7 +84,7 @@ export default function LocationsMap({
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={new window.google.maps.LatLng(currentPosition.lat, currentPosition.lng)}
-        zoom={10}
+        zoom={15}
         options={{
           mapTypeControlOptions: {
             style: window.google.maps.MapTypeControlStyle.DROPDOWN_MENU},

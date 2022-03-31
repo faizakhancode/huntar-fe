@@ -1,13 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import GameMap from "../components/GameMap";
-import FindList from "../components/lists/FindList";
 
 export default function PlayerInfo({
   themes,
   themeIndex,
-  setFindSelected,
-  findSelected,
   findsPlaced,
   gameMarkerPositions,
   game,
@@ -25,23 +22,6 @@ export default function PlayerInfo({
           gameMarkerPositions={gameMarkerPositions}
           game={game}
         />
-        <section>
-          {/* <FindList
-            themes={themes}
-            themeIndex={themeIndex}
-            setFindSelected={setFindSelected}
-            findSelected={findSelected}
-          /> */}
-        </section>
-        <section>
-          <div className="theme_selector_container">
-            {/* <button className="button_arrow left" name="left"></button>
-            <div className="theme_container">
-              <p>Countdown and (optional) leaderboard visualisations go here</p>
-            </div>
-            <button className="button_arrow right" name="left"></button> */}
-          </div>
-        </section>
         <section className="row_flex">
           <Link to={`/player-view/${game._id}`}>
             <button className="button_menu">Back</button>
