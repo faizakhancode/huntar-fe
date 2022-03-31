@@ -1,14 +1,12 @@
-import { React, useState, useCallback, useEffect } from "react";
+import { React, useState, useEffect } from "react";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 
 export default function LocationsMap({
   themes,
   themeIndex,
   findsPlaced,
-  gameMarkerPositions,
   setGameInputs,
   gameInputs,
-  setIsLoading
 }) {
   // map container styling
   const containerStyle = {

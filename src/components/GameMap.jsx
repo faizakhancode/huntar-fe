@@ -1,4 +1,4 @@
-import { React, useState, useCallback, useEffect } from "react";
+import { React, useState,  useEffect } from "react";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 
 export default function GameMap({
@@ -83,6 +83,8 @@ export default function GameMap({
         center={new window.google.maps.LatLng(currentPosition.lat, currentPosition.lng)}
         zoom={15}
         options={{
+          mapTypeControlOptions: {
+            style: window.google.maps.MapTypeControlStyle.DROPDOWN_MENU},
           styles: [
             {
               elementType: "geometry",
