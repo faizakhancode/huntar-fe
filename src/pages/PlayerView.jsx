@@ -158,30 +158,7 @@ export default function PlayerView({
     ) : null;
   };
 
-  function handleClick() {
-    if (!displaySafetyPopUp) {
-      setDisplaySafetyPopUp(true);
-    } else {
-      setDisplaySafetyPopUp(false);
-    }
-  }
-
-  function Popup({ displayPopUp }) {
-    return displayPopUp ? (
-      <div className="pop_up_overlay">
-        <article className="pop_up">
-          <h2>You're almost ready to begin...</h2>
-          <p>But please take a moment to learn how to play HuntAR safely!</p>
-          <p>
-            Be aware of your surroundings and only look at the screen when
-            standing still.
-          </p>
-          <p>Happy Scavenging!</p>
-          <button onClick={handleClick}>Begin</button>
-        </article>
-      </div>
-    );
-  }
+  
 
   const tokenTheme = game.assets[1].asset_name;
   const tokenFolder = `${process.env.PUBLIC_URL}/assets/${tokenTheme}`;
