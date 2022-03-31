@@ -593,6 +593,41 @@ button.secondary:disabled {
   text-align: center;
 }
 
+.player-view_overlay {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--primary-text-overlay);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+}
+.hint-content {
+  background-color: var(--primary-dark);
+  width: 95vw;
+  text-align: center;
+  height: fit-content;
+  /* margin-top: 15vh; */
+  border-radius: 5px;
+}
+
+.row_flex-2 {
+  flex-flow: row;
+  background-color: var(--primary-dark);
+  border-radius: 5px;
+}
+
+.map_container-2 {
+  /* position: relative; */
+  z-index: 0;
+  border-radius: 5px;
+
+}
+
 
 /* This matches forms or form elements that are invalid *and* have been
 interacted with. Note that:
