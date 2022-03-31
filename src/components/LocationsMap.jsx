@@ -88,6 +88,8 @@ export default function LocationsMap({
         center={new window.google.maps.LatLng(currentPosition.lat, currentPosition.lng)}
         zoom={10}
         options={{
+          mapTypeControlOptions: {
+            style: window.google.maps.MapTypeControlStyle.DROPDOWN_MENU},
           styles: [
             {
               elementType: "geometry",
