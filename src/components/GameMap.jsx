@@ -1,10 +1,8 @@
 import { React, useState, useCallback, useEffect } from "react";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 
-export default function GameMap({
+export default async function GameMap({
   themes,
-  themeIndex,
-  findsPlaced,
   game,
 }) {
   // map container styling
@@ -14,10 +12,8 @@ export default function GameMap({
   };
 
   // set map position (initial and current)
-  const [currentPosition, setCurrentPosition] = useState({
-    lat: 53.445,
-    lng: -1.42,
-  });
+  const [currentPosition, setCurrentPosition] = useState();
+  const [isLoading, setIsLoading] = useState(true)
 
   const success = (position) => {
     const currentPosition = {
@@ -29,18 +25,31 @@ export default function GameMap({
 
 
   useEffect(() => {
+    setIsLoading(true);
     navigator.geolocation.getCurrentPosition(success);
+    setIsLoading(false);
+
   }, []);
   
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: process.env.REACT_APP_MAP_API,
   });
+
+  if (isLoading) {
+    return (
+      <div className="overall-loading">
+        <h3>Loading </h3> <div className="loader"></div>
+      </div>
+    );
+  }
  
 
 
   const finds = themes.themes[game.assets[1].asset_name -1].finds;
  
+  console.log(finds);
+  console.log(game)
 
   const mapMarkers = finds.map((find) => {
     const image = {
@@ -65,11 +74,11 @@ export default function GameMap({
   });
 
   return isLoaded ? (
-    <div className="map_container">
+    <div className="map_container-2">
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={new window.google.maps.LatLng(currentPosition.lat, currentPosition.lng)}
-        zoom={10}
+        zoom={15}
         options={{
           styles: [
             {

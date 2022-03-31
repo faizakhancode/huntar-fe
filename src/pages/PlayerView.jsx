@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getGames } from "../utils/api";
+import GameMap from "../components/GameMap";
 
 export default function PlayerView({
   displaySafetyPopUp,
@@ -9,12 +10,11 @@ export default function PlayerView({
   themes,
   setGame,
 }) {
-
-
+  const [playerViewPopUp, setPlayerViewPopUp] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [currScore, setCurrScore] = useState(0);
   const [error, setError] = useState(false);
-  
+
   const { id } = useParams();
   useEffect(() => {
     setIsLoading(true);
@@ -54,22 +54,58 @@ export default function PlayerView({
     );
   }
 
-
-  if(currScore === 5) {
-    return <div className="overall-loading winner" 
-     ><h4 className="winner-page" > You A-R a winner!</h4> 
-     <Link to='/'> <button className="error-page-button"> Home </button> </Link>
-     </div>
+  if (currScore === 5) {
+    return (
+      <div className="overall-loading winner">
+        <h4 className="winner-page"> You A-R a winner!</h4>
+        <Link to="/">
+          {" "}
+          <button className="error-page-button"> Home </button>{" "}
+        </Link>
+      </div>
+    );
   }
 
-function handleClick() {
-  if (!displaySafetyPopUp) {
-    setDisplaySafetyPopUp(true);
-  } else {
-    setDisplaySafetyPopUp(false);
-  }
-  }
+  const handleplayerViewPopup = () => {
+    if (!playerViewPopUp) {
+      setPlayerViewPopUp(true);
+    } else {
+      setPlayerViewPopUp(false);
+    }
+  };
 
+  const PlayerViewPopUp = ({ playerViewPopUp }) => {
+    return playerViewPopUp ? (
+      <>
+        <div className="player-view_overlay">
+          <div className="hint-content">
+            <div className="hint-title">
+              <h1 className="player-view-h1">{game.game_name} hint:</h1>
+            </div>
+            <div>
+              <GameMap themes={themes} game={game} />
+            </div>
+            <section className="row_flex-2">
+              <button onClick={handleplayerViewPopup} className="button_menu">
+                Back
+              </button>
+              <Link to="/">
+                <button className="button_menu">Quit game</button>
+              </Link>
+            </section>
+          </div>
+        </div>
+      </>
+    ) : null;
+  };
+
+  function handleClick() {
+    if (!displaySafetyPopUp) {
+      setDisplaySafetyPopUp(true);
+    } else {
+      setDisplaySafetyPopUp(false);
+    }
+  }
 
   function Popup({ displayPopUp }) {
     return displayPopUp ? (
@@ -98,27 +134,28 @@ function handleClick() {
     `latitude: ${game.assets[5].latitude}; longitude: ${game.assets[5].longitude}`,
   ];
 
- 
-
   return (
     <div className="page_container">
       <main>
         <Popup displayPopUp={displaySafetyPopUp} />
+        <PlayerViewPopUp playerViewPopUp={playerViewPopUp} />
         <div className="camera_overlay">
           <div className="button_display">
-             {game.game_name} 
+            {game.game_name}
             <br />
             Score: {currScore}
             {/* <br />
             Distance to nearest find: {distanceToToken} */}
           </div>
           <nav>
-            <Link to="/player-info">
-              <button className="button_menu">Get hint!</button>
-            </Link>
-            <Link to="/player-info">
+            {/* <Link to="/player-info"> */}
+            <button onClick={handleplayerViewPopup} className="button_menu">
+              Get hint!
+            </button>
+            {/* </Link> */}
+            {/* <Link to="/player-info">
               <button className="button_menu">Menu</button>
-            </Link>
+            </Link> */}
           </nav>
         </div>
         <section className="a_scene">
