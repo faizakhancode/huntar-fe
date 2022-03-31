@@ -12,6 +12,7 @@ export default function PlayerView({
   themes,
   setGame,
 }) {
+
   const [isLoading, setIsLoading] = useState(true);
   const [currScore, setCurrScore] = useState(0);
   const [error, setError] = useState(false);
@@ -73,7 +74,7 @@ export default function PlayerView({
       </div>
     ) : null;
   };
-
+  
   useEffect(() => {
     setIsLoading(true);
     getGames(id)
@@ -106,6 +107,7 @@ export default function PlayerView({
       </div>
     );
   }
+
 
   if (currScore === 5) {
     return (

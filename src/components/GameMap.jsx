@@ -1,17 +1,14 @@
-import { React, useState, useEffect } from "react";
+import { React, useState,  useEffect } from "react";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 
-export default function LocationsMap({
+export default function GameMap({
   themes,
-  themeIndex,
-  findsPlaced,
-  setGameInputs,
-  gameInputs,
+  game,
 }) {
   // map container styling
   const containerStyle = {
     width: "100%",
-    height: "300px",
+    height: "435px",
   };
 
   // set map position (initial and current)
@@ -40,12 +37,10 @@ export default function LocationsMap({
  
 
 
-  const finds = themes.themes[themeIndex].finds;
-  const filteredFinds = finds.filter((find) => {
-    return findsPlaced[find.find_id] === true;
-  });
+  const finds = themes.themes[game.assets[1].asset_name -1].finds;
+ 
 
-  const mapMarkers = filteredFinds.map((find) => {
+  const mapMarkers = finds.map((find) => {
     const image = {
       url: find.img_url,
       scaledSize: { width: 30, height: 30 },
@@ -55,29 +50,17 @@ export default function LocationsMap({
     return (
       <Marker
         clickable={true}
-        draggable={true}
+        draggable={false}
         position={{
-          lat: gameInputs?.assets[find.find_id]?.latitude  || currentPosition.lat,
-          lng: gameInputs?.assets[find.find_id]?.longitude  || currentPosition.lng
+          lat: game?.assets[find.find_id]?.latitude ,
+          lng: game?.assets[find.find_id]?.longitude
         }}
         key={find.find_id}
         icon={image}
-        onDragEnd={(event) => {
-          const findId = find.find_id;
-          setGameInputs((currVal) => {
-            currVal.assets[findId] = {
-              latitude: event.latLng.lat(),
-              longitude: event.latLng.lng(),
-              asset_name: themes.themes[themeIndex].theme_id,
-            };
-            return currVal;
-          })
-        }}
       ></Marker>
     );
+    
   });
-
-
 
   return isLoaded ? (
     <div className="map_container">

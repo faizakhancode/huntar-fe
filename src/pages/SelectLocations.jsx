@@ -1,5 +1,5 @@
 import { React, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LocationsMap from "../components/LocationsMap";
 import FindCheckBoxList from "../components/lists/FindCheckBoxList";
 import { postGames } from "../utils/api";
@@ -11,23 +11,27 @@ export default function SelectLocations({
   setFindsPlaced,
   gameMarkerPositions,
   setGameMarkerPositions,
-  gameInputs, 
+  gameInputs,
   setGameId,
-  setGameInputs
-}) {  
-  
-
+  setGameInputs,
+}) {
+  const navigate = useNavigate();
+  const [notFive, setNotFive] = useState(false)
 
   const createGame = () => {
     const gameCheck = Object.keys(gameInputs.assets).length === 5;
-if (gameCheck){
-  postGames(gameInputs).then((res) => setGameId(res)).catch((err) => {
-    console.log(err)
-  })
-} 
-  }
-
-
+    if (gameCheck) {
+      postGames(gameInputs)
+        .then((res) => {
+          setGameId(res);
+          navigate(`/manage-game`);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+    else setNotFive(true)
+  };
 
   return (
     <div className="page_container">
@@ -67,10 +71,11 @@ if (gameCheck){
             <Link to="/set-up-game">
               <button className="button_menu">Back</button>
             </Link>
-            <Link to="/manage-game">
-              <button  disabled={Object.keys(gameInputs.assets).length === 4 ? false:true} onClick={() => createGame()} className={`button_menu ${ Object.keys(gameInputs.assets).length === 4? null: 'disabled'}`}>Confirm</button>
-            </Link>
+            <button onClick={() => createGame()} className={`button_menu`}>
+              Confirm
+            </button>
           </nav>
+          {notFive ? <h3>Please place all 5 assets</h3>: null}
         </section>
       </main>
     </div>
