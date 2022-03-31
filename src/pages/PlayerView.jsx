@@ -81,7 +81,7 @@ function handleClick() {
             Be aware of your surroundings and only look at the screen when
             standing still.
           </p>
-          <p>Happy Scavenging!</p>
+          <p>Happy Hunting!</p>
           <button onClick={handleClick}>Begin</button>
         </article>
       </div>

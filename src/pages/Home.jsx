@@ -27,16 +27,16 @@ export default function Home({setGame}) {
     return displayPopUp ? (
       <div className="pop_up_overlay">
         <article className="pop_up">
-          <h2>Welcome to ScavengAR!</h2>
+          <h2>Welcome to Hunt-AR!</h2>
           <p>
-            ScavengAR is an augmented reality (AR) based scavenger hunt game
+            Hunt-AR is an augmented reality (AR) based scavenger hunt game
             that you can set up and play with others!
           </p>
           <p>
             Create a game yourself and share it with others, or join a game
             created by someone you know.
           </p>
-          <p>Happy Scavenging!</p>
+          <p>Happy Hunting!</p>
           <button onClick={handleClick}>Close</button>
         </article>
       </div>
