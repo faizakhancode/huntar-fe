@@ -1,6 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getGames } from "../utils/api";
+import "aframe-state-component";
+import "../utils/aframeStates";
+import { getDistanceBetweenPoints } from "get-distance-between-points";
 
 export default function PlayerView({
   displaySafetyPopUp,
@@ -10,12 +13,68 @@ export default function PlayerView({
   setGame,
 }) {
 
-
   const [isLoading, setIsLoading] = useState(true);
   const [currScore, setCurrScore] = useState(0);
   const [error, setError] = useState(false);
-  
+  const userLat = useRef();
+  const userLon = useRef();
+  const nearestDistance = useRef(null);
+  const nearestMsg = useRef();
+  const foundTokens = useRef({});
   const { id } = useParams();
+
+  const getNearestToken = () => {
+    console.log(foundTokens);
+    nearestDistance.current = 0;
+    for (let index = 1; index < 6; index++) {
+      if (!foundTokens.current[`token${index}`]) {
+        const distanceInMeters = Math.round(
+          getDistanceBetweenPoints(
+            userLat.current,
+            userLon.current,
+            game.assets[index].latitude,
+            game.assets[index].longitude
+          )
+        );
+        console.log(index, distanceInMeters);
+        if (
+          (distanceInMeters && distanceInMeters < nearestDistance.current) ||
+          nearestDistance.current === 0
+        ) {
+          nearestDistance.current = distanceInMeters;
+          nearestMsg.current = `Distance to nearest token: ${nearestDistance.current} meters`;
+        }
+      }
+    }
+    const distanceMessage = document.getElementById("distance_message");
+    if (distanceMessage) distanceMessage.innerHTML = nearestMsg.current;
+  };
+
+  const handleClick = () => {
+    if (!displaySafetyPopUp) {
+      setDisplaySafetyPopUp(true);
+    } else {
+      setDisplaySafetyPopUp(false);
+    }
+  };
+
+  const Popup = ({ displayPopUp }) => {
+    return displayPopUp ? (
+      <div className="pop_up_overlay">
+        <article className="pop_up">
+          <h2>You're almost ready to begin...</h2>
+          <p>But please take a moment to learn how to play HuntAR safely!</p>
+          <p>
+            Be aware of your surroundings and only look at the screen when
+            standing still.
+          </p>
+          <p>Happy Scavenging!</p>
+          <button onClick={handleClick}>Begin</button>
+        </article>
+      </div>
+    ) : null;
+  };
+  
   useEffect(() => {
     setIsLoading(true);
     getGames(id)
@@ -37,11 +96,6 @@ export default function PlayerView({
     );
   }
 
-  document.addEventListener("increasescore", function () {
-    setCurrScore(currScore + 1);
-    // getNearestToken()
-  });
-
   if (error) {
     return (
       <div className="overall-loading error">
@@ -55,50 +109,32 @@ export default function PlayerView({
   }
 
 
-  if(currScore === 5) {
-    return <div className="overall-loading winner" 
-     ><h4 className="winner-page" > You A-R a winner!</h4> 
-     <Link to='/'> <button className="error-page-button"> Home </button> </Link>
-     </div>
-  }
-
-function handleClick() {
-  if (!displaySafetyPopUp) {
-    setDisplaySafetyPopUp(true);
-  } else {
-    setDisplaySafetyPopUp(false);
-  }
-  }
-
-
-  function Popup({ displayPopUp }) {
-    return displayPopUp ? (
-      <div className="pop_up_overlay">
-        <article className="pop_up">
-          <h2>You're almost ready to begin...</h2>
-          <p>But please take a moment to learn how to play HuntAR safely!</p>
-          <p>
-            Be aware of your surroundings and only look at the screen when
-            standing still.
-          </p>
-          <p>Happy Hunting!</p>
-          <button onClick={handleClick}>Begin</button>
-        </article>
+  if (currScore === 5) {
+    return (
+      <div className="overall-loading winner">
+        <h4 className="winner-page"> You A-R a winner!</h4>
+        <Link to="/">
+          {" "}
+          <button className="error-page-button"> Home </button>{" "}
+        </Link>
       </div>
-    ) : null;
+    );
   }
 
   const tokenTheme = game.assets[1].asset_name;
   const tokenFolder = `${process.env.PUBLIC_URL}/assets/${tokenTheme}`;
-  const tokenCoordinates = [
-    `latitude: ${game.assets[1].latitude}; longitude: ${game.assets[1].longitude}`,
-    `latitude: ${game.assets[2].latitude}; longitude: ${game.assets[2].longitude}`,
-    `latitude: ${game.assets[3].latitude}; longitude: ${game.assets[3].longitude}`,
-    `latitude: ${game.assets[4].latitude}; longitude: ${game.assets[4].longitude}`,
-    `latitude: ${game.assets[5].latitude}; longitude: ${game.assets[5].longitude}`,
-  ];
 
- 
+  document.addEventListener("increasescore", function (e) {
+    foundTokens.current[e.detail.foundToken.id] = true;
+    getNearestToken();
+    setCurrScore(currScore + 1);
+  });
+
+  window.addEventListener("gps-camera-update-position", (e) => {
+    userLat.current = e.detail.position.latitude;
+    userLon.current = e.detail.position.longitude;
+    getNearestToken();
+  });
 
   return (
     <div className="page_container">
@@ -106,11 +142,11 @@ function handleClick() {
         <Popup displayPopUp={displaySafetyPopUp} />
         <div className="camera_overlay">
           <div className="button_display">
-             {game.game_name} 
+            {game.game_name}
             <br />
             Score: {currScore}
-            {/* <br />
-            Distance to nearest find: {distanceToToken} */}
+            <br />
+            <div id="distance_message">Loading...</div>
           </div>
           <nav>
             <Link to="/player-info">
@@ -144,9 +180,8 @@ function handleClick() {
 
             {/* 3D Camera */}
             <a-camera
-              far="25"
               look-controls-enabled="false"
-              gps-projected-camera="gpsMinDistance: 1"
+              gps-camera="gpsMinDistance: 5, maxDistance: 25"
               rotation-reader
               arjs-look-controls="smoothingFactor: 0.1"
             >
@@ -162,7 +197,8 @@ function handleClick() {
               ></a-entity>
             </a-camera>
 
-            {/* Score */}
+            {/* Score and Found Tokens */}
+
             <a-entity
               id="scoreEntity"
               bind__text="value: score"
@@ -170,39 +206,42 @@ function handleClick() {
             ></a-entity>
 
             {/* Tokens */}
+
             <a-gltf-model
               id="token1"
               mixin="clickable token"
               src={tokenFolder + "/token.glb"}
-              gps-projected-entity-place={tokenCoordinates[0]}
+              gps-entity-place={`latitude: ${game.assets[1].latitude}; longitude: ${game.assets[1].longitude}`}
             ></a-gltf-model>
 
             <a-gltf-model
               id="token2"
               mixin="clickable token"
               src={tokenFolder + "/token.glb"}
-              gps-projected-entity-place={tokenCoordinates[1]}
+              gps-entity-place={`latitude: ${game.assets[2].latitude}; longitude: ${game.assets[2].longitude}`}
             ></a-gltf-model>
 
             <a-gltf-model
               id="token3"
               mixin="clickable token"
               src={tokenFolder + "/token.glb"}
-              gps-projected-entity-place={tokenCoordinates[2]}
+              gps-entity-place={`latitude: ${game.assets[3].latitude}; longitude: ${game.assets[3].longitude}`}
             ></a-gltf-model>
 
             <a-gltf-model
               id="token4"
               mixin="clickable token"
               src={tokenFolder + "/token.glb"}
-              gps-projected-entity-place={tokenCoordinates[3]}
-            ></a-gltf-model>
+              gps-entity-place={`latitude: ${game.assets[4].latitude}; longitude: ${game.assets[4].longitude}`}
+            >
+              <a-text value="token4" position="0 -3 0"></a-text>
+            </a-gltf-model>
 
             <a-gltf-model
               id="token5"
               mixin="clickable token"
               src={tokenFolder + "/token.glb"}
-              gps-projected-entity-place={tokenCoordinates[4]}
+              gps-entity-place={`latitude: ${game.assets[5].latitude}; longitude: ${game.assets[5].longitude}`}
             ></a-gltf-model>
           </a-scene>
         </section>
