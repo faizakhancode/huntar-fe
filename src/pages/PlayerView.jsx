@@ -18,15 +18,13 @@ export default function PlayerView({
   const userLat = useRef();
   const userLon = useRef();
   const nearestDistance = useRef(null);
-  const nextToken = useRef(null);
   const nearestMsg = useRef();
-  const foundTokens = useRef({})
+  const foundTokens = useRef({});
   const { id } = useParams();
 
   const getNearestToken = () => {
     console.log(foundTokens);
     nearestDistance.current = 0;
-    nextToken.current = 0;
     for (let index = 1; index < 6; index++) {
       if (!foundTokens.current[`token${index}`]) {
         const distanceInMeters = Math.round(
@@ -43,17 +41,12 @@ export default function PlayerView({
           nearestDistance.current === 0
         ) {
           nearestDistance.current = distanceInMeters;
-          nearestMsg.current = `Distance to nearest find: ${nearestDistance.current} meters`;
+          nearestMsg.current = `Distance to nearest token: ${nearestDistance.current} meters`;
         }
       }
     }
     const distanceMessage = document.getElementById("distance_message");
     if (distanceMessage) distanceMessage.innerHTML = nearestMsg.current;
-    const arDistMsg = document.querySelector("[gps-entity-place]");
-    if (arDistMsg)
-      console.log(
-        document.querySelector("[gps-entity-place]").getAttribute("distanceMsg")
-      );
   };
 
   const handleClick = () => {
@@ -102,18 +95,6 @@ export default function PlayerView({
     );
   }
 
-  document.addEventListener("increasescore", function (e) {
-    foundTokens.current[e.detail.foundToken.id] = true;
-    getNearestToken();
-    setCurrScore(currScore + 1);
-  });
-
-  window.addEventListener("gps-camera-update-position", (e) => {
-    userLat.current = e.detail.position.latitude;
-    userLon.current = e.detail.position.longitude;
-    getNearestToken();
-  });
-
   if (error) {
     return (
       <div className="overall-loading error">
@@ -141,15 +122,29 @@ export default function PlayerView({
   const tokenTheme = game.assets[1].asset_name;
   const tokenFolder = `${process.env.PUBLIC_URL}/assets/${tokenTheme}`;
 
+  document.addEventListener("increasescore", function (e) {
+    foundTokens.current[e.detail.foundToken.id] = true;
+    getNearestToken();
+    setCurrScore(currScore + 1);
+  });
+
+  window.addEventListener("gps-camera-update-position", (e) => {
+    userLat.current = e.detail.position.latitude;
+    userLon.current = e.detail.position.longitude;
+    getNearestToken();
+  });
+
   return (
     <div className="page_container">
       <main>
         <Popup displayPopUp={displaySafetyPopUp} />
         <div className="camera_overlay">
           <div className="button_display">
+            {game.game_name}
+            <br />
             Score: {currScore}
             <br />
-            <aside id="distance_message">Loading...</aside>
+            <div id="distance_message">Loading...</div>
           </div>
           <nav>
             <Link to="/player-info">
@@ -194,7 +189,7 @@ export default function PlayerView({
                 animation__fusing="property: scale; startEvents: fusing; easing: easeInCubic; dur: 1500; from: 1 1 1; to: 0.1 0.1 0.1"
                 animation__mouseleave="property: scale; startEvents: mouseleave; easing: easeInCubic; dur: 500; to: 1 1 1 "
                 cursor="fuse: true;"
-                material="color: black; shader: flat"
+                material="color: white; shader: flat"
                 position="0 0 -3"
                 geometry="primitive: ring; radius-inner: 0.8; radius-outer: 0.9"
               ></a-entity>
